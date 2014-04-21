@@ -100,7 +100,8 @@
 
 <p>During last days I was playing with amazing AS3 library <a href="http://code.google.com/p/mad-components/">MadComponents</a> &ndash; lightweight open-source UI framework for Flash. This library is maintained by <a href="http://madskool.wordpress.com/about-2/">Daniel Freeman</a> and he claims that &ldquo;MadComponents&rdquo; targets mobile apps via Adobe AIR. And I could say that the library proves that point: it&rsquo;s fast and provides ready-to-use components, which fit to mobile UI, out of the box. One of the great features is a declarative UI markup: just feed framework with correct XML and it produces components&#8217; tree that automatically layouts depending on device screen dimensions.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Example of XML layout </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -129,11 +130,11 @@
 
 <p style="text-align:center;"><img src="/images/FlickrGallery-package-diagram-after-refactor.png" alt="Package diagrame after" /></p>
 
-<p>I&rsquo;ve extracted base context class <a href="https://bitbucket.org/ajukraine/madcomponents-robotlegs-flickrgallerynometa/src/tip/src/org/robotlegs/demos/imagegallery/BaseGalleryContext.as">BaseImageGalleryContext</a> and derived two new ones for Flex and Mad. Now our application structure is agnostic to concrete UI library. If we want to compile Flex version just pick <code>MadRobotlegsFlickrGallery</code> as swf main class, or for MadComponents version &ndash; <code>MadRobotlegsFlickrGallery</code>. And this is real power of MVC &ndash; easy replacing of layers implementation: so mediators depends only on UI interfaces.</p>
+<p>I&rsquo;ve extracted base context class <code>BaseGalleryContext</code> and derived two new ones for Flex and Mad. Now our application structure is agnostic to concrete UI library. If we want to compile Flex version, then just pick <code>MadRobotlegsFlickrGallery</code> as swf main class, or for MadComponents version &ndash; <code>MadRobotlegsFlickrGallery</code>. And this is real power of MVC &ndash; easy replacing of layers implementation: so mediators depends only on UI interfaces.</p>
 
-<p>Here how I map mediators to mad components.</p>
+<p>Here how I map mediators to &ldquo;mad&rdquo; components:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>BaseGalleryContext.as</span><a href='https://bitbucket.org/ajukraine/madcomponents-robotlegs-flickrgallerynometa/src/tip/src/org/robotlegs/demos/imagegallery/BaseGalleryContext.as'>link</a></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -149,20 +150,20 @@
 <span class='line-number'>14</span>
 <span class='line-number'>15</span>
 <span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='as3'><span class='line'><span class="k">import</span> <span class="nn">org.robotlegs.demos.imagegallery.views.components.mad.</span><span class="o">*;</span>
-</span><span class='line'><span class="k">import</span> <span class="nn">org.robotlegs.demos.imagegallery.views.components.api.</span><span class="o">*;</span>
+</pre></td><td class='code'><pre><code class='as'><span class='line'><span class="kd">import</span> <span class="nx">org</span><span class="p">.</span><span class="nx">robotlegs</span><span class="p">.</span><span class="nx">demos</span><span class="p">.</span><span class="nx">imagegallery</span><span class="p">.</span><span class="nx">views</span><span class="p">.</span><span class="nx">components</span><span class="p">.</span><span class="nx">mad</span><span class="p">.</span><span class="o">*;</span>
+</span><span class='line'><span class="kd">import</span> <span class="nx">org</span><span class="p">.</span><span class="nx">robotlegs</span><span class="p">.</span><span class="nx">demos</span><span class="p">.</span><span class="nx">imagegallery</span><span class="p">.</span><span class="nx">views</span><span class="p">.</span><span class="nx">components</span><span class="p">.</span><span class="nx">api</span><span class="p">.</span><span class="o">*;</span>
 </span><span class='line'>
 </span><span class='line'><span class="c1">// ... more code ...</span>
 </span><span class='line'>
-</span><span class='line'><span class="kd">override</span> <span class="kd">public</span> <span class="kd">function </span><span class="nf">startup</span><span class="o">():</span><span class="kt">void</span>
-</span><span class='line'><span class="o">{</span>
+</span><span class='line'><span class="kd">override</span> <span class="kd">public</span> <span class="kd">function</span> <span class="nx">startup</span><span class="p">()</span><span class="o">:</span><span class="nx">void</span>
+</span><span class='line'><span class="p">{</span>
 </span><span class='line'>  <span class="c1">//map view</span>
-</span><span class='line'>  <span class="n">mediatorMap</span><span class="o">.</span><span class="na">mapView</span><span class="o">(</span><span class="n">GalleryView</span><span class="o">,</span> <span class="n">GalleryViewMediator</span><span class="o">,</span> <span class="n">IGalleryView</span><span class="o">);</span>
-</span><span class='line'>  <span class="n">mediatorMap</span><span class="o">.</span><span class="na">mapView</span><span class="o">(</span><span class="n">GallerySearch</span><span class="o">,</span> <span class="n">GallerySearchMediator</span><span class="o">,</span> <span class="n">IGallerySearch</span><span class="o">);</span>
-</span><span class='line'>  <span class="n">mediatorMap</span><span class="o">.</span><span class="na">mapView</span><span class="o">(</span><span class="n">GalleryLabel</span><span class="o">,</span> <span class="n">GalleryLabelMediator</span><span class="o">,</span> <span class="n">IGalleryLabel</span><span class="o">);</span>
+</span><span class='line'>  <span class="nx">mediatorMap</span><span class="p">.</span><span class="nx">mapView</span><span class="p">(</span><span class="nx">GalleryView</span><span class="o">,</span> <span class="nx">GalleryViewMediator</span><span class="o">,</span> <span class="nx">IGalleryView</span><span class="p">);</span>
+</span><span class='line'>  <span class="nx">mediatorMap</span><span class="p">.</span><span class="nx">mapView</span><span class="p">(</span><span class="nx">GallerySearch</span><span class="o">,</span> <span class="nx">GallerySearchMediator</span><span class="o">,</span> <span class="nx">IGallerySearch</span><span class="p">);</span>
+</span><span class='line'>  <span class="nx">mediatorMap</span><span class="p">.</span><span class="nx">mapView</span><span class="p">(</span><span class="nx">GalleryLabel</span><span class="o">,</span> <span class="nx">GalleryLabelMediator</span><span class="o">,</span> <span class="nx">IGalleryLabel</span><span class="p">);</span>
 </span><span class='line'>  
-</span><span class='line'>  <span class="kd">super</span><span class="o">.</span><span class="na">startup</span><span class="o">();</span>
-</span><span class='line'><span class="o">}</span>
+</span><span class='line'>  <span class="kd">super</span><span class="p">.</span><span class="nx">startup</span><span class="p">();</span>
+</span><span class='line'><span class="p">}</span>
 </span><span class='line'>
 </span><span class='line'><span class="c1">// ... more code ...</span>
 </span></code></pre></td></tr></table></div></figure>
@@ -170,7 +171,7 @@
 
 <p>The third parameter of <code>mapView</code> specifies the type that mediator depends on. For example, <code>GalleryViewMediator</code> depends on <code>IGalleryView</code> type. The injector will automatically pass the view into constructor.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>GalleryViewMediator.as</span><a href='https://bitbucket.org/ajukraine/madcomponents-robotlegs-flickrgallerynometa/src/tip/src/org/robotlegs/demos/imagegallery/views/mediators/GalleryViewMediator.as'>link</a></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -181,46 +182,46 @@
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='as3'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="n">GalleryViewMediator</span> <span class="kd">extends</span> <span class="n">Mediator</span>
-</span><span class='line'><span class="o">{</span>
-</span><span class='line'>  <span class="kd">private</span> <span class="kd">var</span> <span class="n">view</span><span class="p">:</span><span class="kt">IGalleryView</span><span class="o">;</span>
+</pre></td><td class='code'><pre><code class='as'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nx">GalleryViewMediator</span> <span class="kd">extends</span> <span class="nx">Mediator</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="kd">private</span> <span class="k">var</span> <span class="nx">view</span><span class="o">:</span><span class="nx">IGalleryView</span><span class="o">;</span>
 </span><span class='line'>
-</span><span class='line'>  <span class="kd">public</span> <span class="kd">function </span><span class="nf">GalleryViewMediator</span><span class="o">(</span><span class="n">galleryView</span><span class="o">:</span><span class="kt">IGalleryView</span><span class="o">)</span>
-</span><span class='line'>  <span class="o">{</span>
-</span><span class='line'>      <span class="n">view</span> <span class="o">=</span> <span class="n">galleryView</span><span class="o">;</span>
-</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">function</span> <span class="nx">GalleryViewMediator</span><span class="p">(</span><span class="nx">galleryView</span><span class="o">:</span><span class="nx">IGalleryView</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="nx">view</span> <span class="o">=</span> <span class="nx">galleryView</span><span class="o">;</span>
+</span><span class='line'>  <span class="p">}</span>
 </span><span class='line'>
 </span><span class='line'>  <span class="c1">// ... more code ...</span>
-</span><span class='line'><span class="o">}</span>
+</span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h2>Implementing UI interfaces with MadComponents</h2>
+<h2>Implementing UI with MadComponents</h2>
 
 <p>Ok, application&rsquo;s backbone is constructed correctly, but it misses the main part &ndash; actual Mad UI! So lets implement root view and view interfaces: <code>IGalleryLabel</code>, <code>IGallerySearch</code>, <code>IGalleryView</code>.</p>
 
-<p>General <a href="https://bitbucket.org/ajukraine/madcomponents-robotlegs-flickrgallerynometa/src/tip/src/MadRobotlegsFlickrGallery.as">layout</a> consists of header, search prompt and gallery view:</p>
+<p>General layout consists of header, search prompt and gallery view:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>MadRobotlegsFlickrGallery.as</span><a href='https://bitbucket.org/ajukraine/madcomponents-robotlegs-flickrgallerynometa/src/tip/src/MadRobotlegsFlickrGallery.as'>link</a></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='as3'><span class='line'><span class="kd">protected</span> <span class="kd">const</span> <span class="n">LAYOUT</span><span class="p">:</span><span class="kt">XML</span> <span class="o">=</span>
-</span><span class='line'>  <span class="o">&lt;</span><span class="n">vertical</span> <span class="n">xmlns</span><span class="o">:</span><span class="n">mad</span><span class="o">=</span><span class="s2">&quot;org.robotlegs.demos.imagegallery.views.mad&quot;</span>
-</span><span class='line'>      <span class="n">gapV</span><span class="o">=</span><span class="s2">&quot;0&quot;</span> <span class="n">gapH</span><span class="o">=</span><span class="s2">&quot;0&quot;</span> <span class="n">paddingV</span><span class="o">=</span><span class="s2">&quot;0&quot;</span> <span class="n">border</span><span class="o">=</span><span class="s2">&quot;false&quot;</span><span class="o">&gt;</span>
-</span><span class='line'>      <span class="o">&lt;</span><span class="n">mad</span><span class="o">:</span><span class="n">GalleryHeader</span> <span class="o">/&gt;</span>
-</span><span class='line'>      <span class="o">&lt;</span><span class="n">mad</span><span class="o">:</span><span class="n">GallerySearch</span> <span class="n">id</span><span class="o">=</span><span class="s2">&quot;search&quot;</span> <span class="o">/&gt;</span>
-</span><span class='line'>      <span class="o">&lt;</span><span class="n">mad</span><span class="o">:</span><span class="n">GalleryView</span> <span class="n">id</span><span class="o">=</span><span class="s2">&quot;gallery&quot;</span> <span class="o">/&gt;</span>
-</span><span class='line'>  <span class="o">&lt;/</span><span class="n">vertical</span><span class="o">&gt;;</span>
+</pre></td><td class='code'><pre><code class='as'><span class='line'><span class="kd">protected</span> <span class="kd">const</span> <span class="nx">LAYOUT</span><span class="o">:</span><span class="nb">XML</span> <span class="o">=</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="nx">vertical</span> <span class="nx">xmlns</span><span class="o">:</span><span class="nx">mad</span><span class="o">=</span><span class="s2">&quot;org.robotlegs.demos.imagegallery.views.mad&quot;</span>
+</span><span class='line'>      <span class="nx">gapV</span><span class="o">=</span><span class="s2">&quot;0&quot;</span> <span class="nx">gapH</span><span class="o">=</span><span class="s2">&quot;0&quot;</span> <span class="nx">paddingV</span><span class="o">=</span><span class="s2">&quot;0&quot;</span> <span class="nx">border</span><span class="o">=</span><span class="s2">&quot;false&quot;</span><span class="o">&gt;</span>
+</span><span class='line'>      <span class="o">&lt;</span><span class="nx">mad</span><span class="o">:</span><span class="nx">GalleryHeader</span> <span class="o">/&gt;</span>
+</span><span class='line'>      <span class="o">&lt;</span><span class="nx">mad</span><span class="o">:</span><span class="nx">GallerySearch</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;search&quot;</span> <span class="o">/&gt;</span>
+</span><span class='line'>      <span class="o">&lt;</span><span class="nx">mad</span><span class="o">:</span><span class="nx">GalleryView</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;gallery&quot;</span> <span class="o">/&gt;</span>
+</span><span class='line'>  <span class="o">&lt;/</span><span class="nx">vertical</span><span class="o">&gt;;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
 <p>To split layout into seperate files, I&rsquo;ve utilized the <a href="http://madskool.wordpress.com/2012/01/12/extending-madcomponents/">UI.extend() technique</a>, where custom container componet derives from <code>UIPanel</code> (class from ExtendedMadnessLib). In order to recognize new components by framework, we should put &ldquo;XML tag name &lt;=> Class&rdquo; mapping before whole UI creation:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>MadRobotlegsFlickrGallery.as</span><a href='https://bitbucket.org/ajukraine/madcomponents-robotlegs-flickrgallerynometa/src/tip/src/MadRobotlegsFlickrGallery.as'>link</a></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -229,21 +230,21 @@
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='as3'><span class='line'><span class="kd">private</span> <span class="kd">function </span><span class="nf">onAddedToStage</span><span class="o">(</span><span class="n">e</span><span class="o">:</span><span class="kt">Event</span><span class="o">):</span><span class="kt">void</span>
-</span><span class='line'><span class="o">{</span>
-</span><span class='line'>  <span class="n">UI</span><span class="o">.</span><span class="na">extend</span><span class="o">(</span>
-</span><span class='line'>      <span class="o">[</span><span class="s2">&quot;GalleryHeader&quot;</span><span class="o">,</span> <span class="s2">&quot;GallerySearch&quot;</span><span class="o">,</span> <span class="s2">&quot;GalleryView&quot;</span><span class="o">,</span> <span class="s2">&quot;GalleryLabel&quot;</span><span class="o">],</span>
-</span><span class='line'>      <span class="o">[</span><span class="n">GalleryHeader</span><span class="o">,</span> <span class="n">GallerySearch</span><span class="o">,</span> <span class="n">GalleryView</span><span class="o">,</span> <span class="n">GalleryLabel</span><span class="o">]);</span>
+</pre></td><td class='code'><pre><code class='as'><span class='line'><span class="kd">private</span> <span class="kd">function</span> <span class="nx">onAddedToStage</span><span class="p">(</span><span class="nx">e</span><span class="o">:</span><span class="nb">Event</span><span class="p">)</span><span class="o">:</span><span class="nx">void</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="nx">UI</span><span class="p">.</span><span class="nx">extend</span><span class="p">(</span>
+</span><span class='line'>      <span class="p">[</span><span class="s2">&quot;GalleryHeader&quot;</span><span class="o">,</span> <span class="s2">&quot;GallerySearch&quot;</span><span class="o">,</span> <span class="s2">&quot;GalleryView&quot;</span><span class="o">,</span> <span class="s2">&quot;GalleryLabel&quot;</span><span class="p">]</span><span class="o">,</span>
+</span><span class='line'>      <span class="p">[</span><span class="nx">GalleryHeader</span><span class="o">,</span> <span class="nx">GallerySearch</span><span class="o">,</span> <span class="nx">GalleryView</span><span class="o">,</span> <span class="nx">GalleryLabel</span><span class="p">]);</span>
 </span><span class='line'>      
-</span><span class='line'>  <span class="n">UI</span><span class="o">.</span><span class="na">PADDING</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
-</span><span class='line'>  <span class="n">UIe</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">LAYOUT</span><span class="o">);</span>
-</span><span class='line'><span class="o">}</span>
+</span><span class='line'>  <span class="nx">UI</span><span class="p">.</span><span class="nx">PADDING</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+</span><span class='line'>  <span class="nx">UIe</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="k">this</span><span class="o">,</span> <span class="nx">LAYOUT</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Let&rsquo;s look closer at the simplest component <a href="https://bitbucket.org/ajukraine/madcomponents-robotlegs-flickrgallerynometa/src/tip/src/org/robotlegs/demos/imagegallery/views/components/mad/GalleryHeader.as">GalleryHeader</a>. There is no surprising thing in it, except the pattern, which I use for every custom container component. The class&#8217; constructor takes same range of parametres as parent class and passes all given arguments into parent&rsquo;s constructor, except <code>xml</code> parameter. Instead of external XML file, I pass internal <code>LAYOUT</code> constant.</p>
+<p>Let&rsquo;s look closer to the simplest component <code>GalleryHeader</code>. There ar no surprising things in it, except the pattern, which I use for every custom container component. The class&#8217; constructor takes same range of parametres as parent class and passes all given arguments into parent&rsquo;s constructor, except <code>xml</code> parameter. Instead of external XML file, I pass internal <code>LAYOUT</code> constant.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>GalleryHeader.as</span><a href='https://bitbucket.org/ajukraine/madcomponents-robotlegs-flickrgallerynometa/src/tip/src/org/robotlegs/demos/imagegallery/views/components/mad/GalleryHeader.as'>link</a></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -270,43 +271,44 @@
 <span class='line-number'>25</span>
 <span class='line-number'>26</span>
 <span class='line-number'>27</span>
-</pre></td><td class='code'><pre><code class='as3'><span class='line'><span class="k">package</span> <span class="nn">org.robotlegs.demos.imagegallery.views.components.mad</span>
-</span><span class='line'><span class="o">{</span>
-</span><span class='line'>  <span class="k">import</span> <span class="nn">com.danielfreeman.extendedMadness.UIPanel</span><span class="o">;</span>
-</span><span class='line'>  <span class="k">import</span> <span class="nn">com.danielfreeman.madcomponents.Attributes</span><span class="o">;</span>
-</span><span class='line'>  <span class="k">import</span> <span class="nn">flash.display.Sprite</span><span class="o">;</span>
-</span><span class='line'>  <span class="k">import</span> <span class="nn">flash.utils.getQualifiedClassName</span><span class="o">;</span>
+</pre></td><td class='code'><pre><code class='as'><span class='line'><span class="kd">package</span> <span class="nx">org</span><span class="p">.</span><span class="nx">robotlegs</span><span class="p">.</span><span class="nx">demos</span><span class="p">.</span><span class="nx">imagegallery</span><span class="p">.</span><span class="nx">views</span><span class="p">.</span><span class="nx">components</span><span class="p">.</span><span class="nx">mad</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="kd">import</span> <span class="nx">com</span><span class="p">.</span><span class="nx">danielfreeman</span><span class="p">.</span><span class="nx">extendedMadness</span><span class="p">.</span><span class="nx">UIPanel</span><span class="o">;</span>
+</span><span class='line'>  <span class="kd">import</span> <span class="nx">com</span><span class="p">.</span><span class="nx">danielfreeman</span><span class="p">.</span><span class="nx">madcomponents</span><span class="p">.</span><span class="nx">Attributes</span><span class="o">;</span>
+</span><span class='line'>  <span class="kd">import</span> <span class="nx">flash</span><span class="p">.</span><span class="nx">display</span><span class="p">.</span><span class="nb">Sprite</span><span class="o">;</span>
+</span><span class='line'>  <span class="kd">import</span> <span class="nx">flash</span><span class="p">.</span><span class="nx">utils</span><span class="p">.</span><span class="nx">getQualifiedClassName</span><span class="o">;</span>
 </span><span class='line'>  
 </span><span class='line'>  <span class="cm">/**</span>
 </span><span class='line'><span class="cm">  * @author Bohdan Makohin</span>
 </span><span class='line'><span class="cm">  */</span>
-</span><span class='line'>  <span class="kd">public</span> <span class="kd">class</span> <span class="n">GalleryHeader</span> <span class="kd">extends</span> <span class="n">UIPanel</span>
-</span><span class='line'>  <span class="o">{</span>
-</span><span class='line'>      <span class="kd">protected</span> <span class="kd">const</span> <span class="n">LAYOUT</span><span class="p">:</span> <span class="kt">XML</span> <span class="o">=</span>
-</span><span class='line'>          <span class="o">&lt;</span><span class="n">horizontal</span><span class="o">&gt;</span>
-</span><span class='line'>              <span class="o">&lt;</span><span class="n">image</span><span class="o">&gt;{</span><span class="n">getQualifiedClassName</span><span class="o">(</span><span class="n">Assets</span><span class="o">.</span><span class="na">RobotLegsLogo</span><span class="o">)}&lt;/</span><span class="n">image</span><span class="o">&gt;</span>
-</span><span class='line'>              <span class="o">&lt;</span><span class="n">label</span> <span class="n">id</span><span class="o">=</span><span class="s2">&quot;headerLabel&quot;</span><span class="o">&gt;&lt;</span><span class="n">font</span> <span class="n">size</span><span class="o">=</span><span class="s2">&quot;24&quot;</span><span class="o">&gt;</span>
-</span><span class='line'>                  <span class="o">&lt;</span><span class="n">b</span><span class="o">&gt;</span><span class="n">Robotlegs</span><span class="o">:</span> <span class="n">Image</span> <span class="n">Gallery</span> <span class="n">Demo</span><span class="o">&lt;/</span><span class="n">b</span><span class="o">&gt;</span>
-</span><span class='line'>              <span class="o">&lt;/</span><span class="n">font</span><span class="o">&gt;&lt;/</span><span class="n">label</span><span class="o">&gt;</span>
-</span><span class='line'>          <span class="o">&lt;/</span><span class="n">horizontal</span><span class="o">&gt;;</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">class</span> <span class="nx">GalleryHeader</span> <span class="kd">extends</span> <span class="nx">UIPanel</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="kd">protected</span> <span class="kd">const</span> <span class="nx">LAYOUT</span><span class="o">:</span> <span class="nb">XML</span> <span class="o">=</span>
+</span><span class='line'>          <span class="o">&lt;</span><span class="nx">horizontal</span><span class="o">&gt;</span>
+</span><span class='line'>              <span class="o">&lt;</span><span class="nx">image</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">getQualifiedClassName</span><span class="p">(</span><span class="nx">Assets</span><span class="p">.</span><span class="nx">RobotLegsLogo</span><span class="p">)}</span><span class="o">&lt;/</span><span class="nx">image</span><span class="o">&gt;</span>
+</span><span class='line'>              <span class="o">&lt;</span><span class="nx">label</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;headerLabel&quot;</span><span class="o">&gt;&lt;</span><span class="nx">font</span> <span class="nx">size</span><span class="o">=</span><span class="s2">&quot;24&quot;</span><span class="o">&gt;</span>
+</span><span class='line'>                  <span class="o">&lt;</span><span class="nx">b</span><span class="o">&gt;</span><span class="nx">Robotlegs</span><span class="o">:</span> <span class="nx">Image</span> <span class="nx">Gallery</span> <span class="nx">Demo</span><span class="o">&lt;/</span><span class="nx">b</span><span class="o">&gt;</span>
+</span><span class='line'>              <span class="o">&lt;/</span><span class="nx">font</span><span class="o">&gt;&lt;/</span><span class="nx">label</span><span class="o">&gt;</span>
+</span><span class='line'>          <span class="o">&lt;/</span><span class="nx">horizontal</span><span class="o">&gt;;</span>
 </span><span class='line'>      
-</span><span class='line'>      <span class="kd">public</span> <span class="kd">function </span><span class="nf">GalleryHeader</span><span class="o">(</span><span class="n">screen</span><span class="o">:</span><span class="kt">Sprite</span><span class="o">,</span> <span class="n">xml</span><span class="o">:</span><span class="kt">XML</span><span class="o">,</span> <span class="n">attributes</span><span class="o">:</span><span class="kt">Attributes</span><span class="o">=</span><span class="kc">null</span><span class="o">,</span> <span class="n">row</span><span class="o">:</span><span class="kt">Boolean</span><span class="o">=</span><span class="kc">false</span><span class="o">,</span> <span class="n">inGroup</span><span class="o">:</span><span class="kt">Boolean</span><span class="o">=</span><span class="kc">false</span><span class="o">)</span>
-</span><span class='line'>      <span class="o">{</span>
-</span><span class='line'>          <span class="kd">super</span><span class="o">(</span><span class="n">screen</span><span class="o">,</span> <span class="n">LAYOUT</span><span class="o">,</span> <span class="n">attributes</span><span class="o">,</span> <span class="n">row</span><span class="o">,</span> <span class="n">inGroup</span><span class="o">);</span>
-</span><span class='line'>      <span class="o">}</span>
-</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>      <span class="kd">public</span> <span class="kd">function</span> <span class="nx">GalleryHeader</span><span class="p">(</span><span class="nx">screen</span><span class="o">:</span><span class="nb">Sprite</span><span class="o">,</span> <span class="nx">xml</span><span class="o">:</span><span class="nb">XML</span><span class="o">,</span> <span class="nx">attributes</span><span class="o">:</span><span class="nx">Attributes</span><span class="o">=</span><span class="kc">null</span><span class="o">,</span> <span class="nx">row</span><span class="o">:</span><span class="nb">Boolean</span><span class="o">=</span><span class="kc">false</span><span class="o">,</span> <span class="nx">inGroup</span><span class="o">:</span><span class="nb">Boolean</span><span class="o">=</span><span class="kc">false</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>          <span class="kd">super</span><span class="p">(</span><span class="nx">screen</span><span class="o">,</span> <span class="nx">LAYOUT</span><span class="o">,</span> <span class="nx">attributes</span><span class="o">,</span> <span class="nx">row</span><span class="o">,</span> <span class="nx">inGroup</span><span class="p">);</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'><span class="o">}</span>
+</span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Described approach allows to reuse such components and encapsulates implementation details, in contrast to <a href="http://caffeineindustries.com/2011/09/as3-madcomponents-tutorial-series-separation-of-concerns/">Michael Martinez&#8217; practice</a>, where separate class hosts publicly accessed static variable with XML. Let&rsquo;s define pros and cons of both methods (for ease of explanation I will call Martinez&#8217; technique &ldquo;static&rdquo; and mine &ndash; &ldquo;extension&rdquo;).</p>
+<p>Described approach allows to reuse such components and encapsulate implementation details, in contrast to <a href="http://caffeineindustries.com/2011/09/as3-madcomponents-tutorial-series-separation-of-concerns/">Michael Martinez&#8217; practice</a>, where separate class hosts publicly accessed static variable with XML. Let&rsquo;s define pros and cons of both methods (for ease of explanation I will call Martinez&#8217; technique &ldquo;static&rdquo; and mine &ndash; &ldquo;extension&rdquo;).</p>
 
 <h3>Pros and cons of &ldquo;static&rdquo; and &ldquo;extension&rdquo; techniques to extending MadComponents</h3>
 
 <p>MadComponents framework has strong documentation on how to compose single layout for whole application, where XML tree is constructed during compile-time. And &ldquo;static&rdquo; technique utilized same scheme:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Example of &#8220;static&#8221; layout </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -314,20 +316,21 @@
 <span class='line-number'>6</span>
 </pre></td><td class='code'><pre><code class='as3'><span class='line'><span class="kd">protected</span> <span class="kd">static</span> <span class="kd">const</span> <span class="n">NAVIGATION</span><span class="p">:</span><span class="kt">XML</span> <span class="o">=</span>
 </span><span class='line'>  <span class="o">&lt;</span><span class="n">navigation</span> <span class="n">id</span><span class="o">=</span><span class="s2">&quot;nav&quot;</span> <span class="n">colour</span><span class="o">=</span><span class="s2">&quot;#C100000&quot;</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Home&quot;</span><span class="o">&gt;</span>
-</span><span class='line'>  <span class="o">{</span><span class="n">LIST</span><span class="o">}</span>
-</span><span class='line'>  <span class="o">{</span><span class="n">Page0</span><span class="o">.</span><span class="na">LAYOUT</span><span class="o">}</span>
-</span><span class='line'>  <span class="o">{</span><span class="n">Page1</span><span class="o">.</span><span class="na">LAYOUT</span><span class="o">}</span>
+</span><span class='line'>      <span class="o">{</span><span class="n">LIST</span><span class="o">}</span>
+</span><span class='line'>      <span class="o">{</span><span class="n">Page0</span><span class="o">.</span><span class="na">LAYOUT</span><span class="o">}</span>
+</span><span class='line'>      <span class="o">{</span><span class="n">Page1</span><span class="o">.</span><span class="na">LAYOUT</span><span class="o">}</span>
 </span><span class='line'>  <span class="o">&lt;/</span><span class="n">navigation</span><span class="o">&gt;;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
 <p>Here <code>Page0</code> and <code>Page1</code> are custom component classes. This doesn&rsquo;t broke the mentioned principle of static XML markup.</p>
 
-<p>On the other hand with &ldquo;extension&rdquo; technique we don&rsquo;t have single XML markup for whole application, but many separate XML trees for each custom container component. This approach hides the internals of our component, and therefore reduces tight coherence, which is important characteristic for most software.</p>
+<p>On the other hand with &ldquo;extension&rdquo; technique we don&rsquo;t have single XML markup for whole application, but many separate XML trees for each custom composite component. This approach hides the internals of our component, and therefore reduces tight coherence, which is important characteristic for most software.</p>
 
 <p>With &ldquo;static&rdquo; technique the parent control is responsible for initialization of custom control:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Example of &#8220;static&#8221; initialization </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -344,15 +347,15 @@
 
 <p>So whenever we want to use such control, it is necessary to reference it at least twice: in XML markup and initialization code. Such approach could enforce mistakes, when we want to replace <code>Page1</code> with, for example, <code>Page3</code> &ndash; remember to change code in two places.</p>
 
-<p>Strictly speaking, &ldquo;static&rdquo; approach is just procedural wrapper on XML &ndash; we don&rsquo;t actually do OOP, but have bunch of static methods within class declaration. We can&rsquo;t benefit from instantiating such controls, because everything is located in static context. Hence that is not easy to integrate with MVC &ndash; we should manually instantiate and dispose mediators (Robotlegs), or create dummy Sprite object to be adapter between mediators and custom Mad components.</p>
+<p>Strictly speaking, &ldquo;static&rdquo; approach is just procedural wrapper over XML &ndash; we don&rsquo;t actually do OOP, but have bunch of static methods within class declaration. We can&rsquo;t benefit from instantiating such controls, because everything is located in static context. Hence that is not easy to integrate with MVC &ndash; we should manually instantiate and dispose mediators (Robotlegs), or create dummy Sprite object to be adapter between mediators and custom Mad components.</p>
 
-<p>The &ldquo;extension&rdquo; method gives us possibility to use <code>protected</code> methods and fields of UIPanel (or UIForm); we could override some methods for our needs. But one of the main benefits is that we do OOP &ndash; so it&rsquo;s easy to integrate with MVC, create as many instances of component as we need. Our custom control is self-contained building block (the question is: do you need it to be such?).</p>
+<p>The &ldquo;extension&rdquo; method gives us possibility to use <code>protected</code> methods and fields of UIPanel (or UIForm); we could override some methods for our needs. But one of the main benefits is, that we do OOP &ndash; so it&rsquo;s easy to integrate with MVC, create as many instances of component as we need. Our custom control is self-contained building block (the question is: do you need it to be such?).</p>
 
 <h3>Typed model and UIList&rsquo;s custom renderer</h3>
 
-<p>Bad <a href="news:">news:</a> by default you cannot bind properties of user-defined class within UIList custom renderer. List recognizes only dynamically added properties, not class-defined. So if you have defined some properties in your model class and list renderer references them &ndash; it will no be bound. The reason of such behavior is that implementation of of UIList uses &ldquo;<a href="http://help.adobe.com/en_US/ActionScript/3.0_ProgrammingAS3/WS5b3ccc516d4fbf351e63e3d118a9b90204-7fcf.html#WS5b3ccc516d4fbf351e63e3d118a9b90204-7f5b">for..in</a> to iterate through model.</p>
+<p>Bad news : by default you cannot bind properties of user-defined class within <code>UIList</code> custom renderer. <code>UIList</code> recognizes only dynamically added properties, not class-defined. So if you have defined some properties in your model class and list renderer references them &ndash; it will no be bound. The reason of such behavior is that implementation of of UIList uses &ldquo;<a href="http://help.adobe.com/en_US/ActionScript/3.0_ProgrammingAS3/WS5b3ccc516d4fbf351e63e3d118a9b90204-7fcf.html#WS5b3ccc516d4fbf351e63e3d118a9b90204-7f5b">for..in</a> to iterate through model.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>GalleryImage.as</span><a href='https://bitbucket.org/ajukraine/madcomponents-robotlegs-flickrgallerynometa/src/tip/src/org/robotlegs/demos/imagegallery/models/vo/GalleryImage.as'>link</a></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -391,58 +394,45 @@
 <span class='line-number'>37</span>
 <span class='line-number'>38</span>
 <span class='line-number'>39</span>
-</pre></td><td class='code'><pre><code class='as3'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="n">GalleryImage</span>
-</span><span class='line'><span class="o">{</span>
-</span><span class='line'>  <span class="kd">protected</span> <span class="kd">var</span> <span class="n">_URL</span><span class="p">:</span><span class="kt">String</span><span class="o">;</span>
-</span><span class='line'>  <span class="kd">protected</span> <span class="kd">var</span> <span class="n">_thumbURL</span><span class="p">:</span><span class="kt">String</span><span class="o">;</span>
-</span><span class='line'>  <span class="kd">protected</span> <span class="kd">var</span> <span class="n">_selected</span><span class="p">:</span><span class="kt">Boolean</span><span class="o">;</span>
+</pre></td><td class='code'><pre><code class='as'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nx">GalleryImage</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="kd">protected</span> <span class="k">var</span> <span class="nx">_URL</span><span class="o">:</span><span class="nb">String</span><span class="o">;</span>
+</span><span class='line'>  <span class="kd">protected</span> <span class="k">var</span> <span class="nx">_thumbURL</span><span class="o">:</span><span class="nb">String</span><span class="o">;</span>
+</span><span class='line'>  <span class="kd">protected</span> <span class="k">var</span> <span class="nx">_selected</span><span class="o">:</span><span class="nb">Boolean</span><span class="o">;</span>
 </span><span class='line'>
-</span><span class='line'>  <span class="kd">public</span> <span class="kd">static</span> <span class="kd">const</span> <span class="n">EMPTY</span><span class="p">:</span> <span class="kt">GalleryImage</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">GalleryImage</span><span class="o">();</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">static</span> <span class="kd">const</span> <span class="nx">EMPTY</span><span class="o">:</span> <span class="nx">GalleryImage</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">GalleryImage</span><span class="p">();</span>
 </span><span class='line'>  
-</span><span class='line'>  <span class="kd">public</span> <span class="kd">function</span> <span class="kd">get</span> <span class="n">selected</span><span class="o">():</span><span class="n">Boolean</span>
-</span><span class='line'>  <span class="o">{</span>
-</span><span class='line'>      <span class="k">return</span> <span class="n">_selected</span><span class="o">;</span>
-</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">function</span> <span class="kd">get</span> <span class="nx">selected</span><span class="p">()</span><span class="o">:</span><span class="nb">Boolean</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="k">return</span> <span class="nx">_selected</span><span class="o">;</span>
+</span><span class='line'>  <span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'>  <span class="kd">public</span> <span class="kd">function</span> <span class="kd">set</span> <span class="n">selected</span><span class="o">(</span><span class="n">v</span><span class="o">:</span><span class="n">Boolean</span><span class="o">):</span><span class="kc">void</span>
-</span><span class='line'>  <span class="o">{</span>
-</span><span class='line'>      <span class="n">_selected</span> <span class="o">=</span> <span class="n">v</span><span class="o">;</span>
-</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">function</span> <span class="kd">set</span> <span class="nx">selected</span><span class="p">(</span><span class="nx">v</span><span class="o">:</span><span class="nb">Boolean</span><span class="p">)</span><span class="o">:</span><span class="nx">void</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="nx">_selected</span> <span class="o">=</span> <span class="nx">v</span><span class="o">;</span>
+</span><span class='line'>  <span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'>  <span class="kd">public</span> <span class="kd">function</span> <span class="kd">get</span> <span class="n">thumbURL</span><span class="o">():</span><span class="n">String</span>
-</span><span class='line'>  <span class="o">{</span>
-</span><span class='line'>      <span class="k">return</span> <span class="n">_thumbURL</span><span class="o">;</span>
-</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">function</span> <span class="kd">get</span> <span class="nx">thumbURL</span><span class="p">()</span><span class="o">:</span><span class="nb">String</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="k">return</span> <span class="nx">_thumbURL</span><span class="o">;</span>
+</span><span class='line'>  <span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'>  <span class="kd">public</span> <span class="kd">function</span> <span class="kd">set</span> <span class="n">thumbURL</span><span class="o">(</span><span class="n">v</span><span class="o">:</span><span class="n">String</span><span class="o">):</span><span class="kc">void</span>
-</span><span class='line'>  <span class="o">{</span>
-</span><span class='line'>      <span class="n">_thumbURL</span> <span class="o">=</span> <span class="n">v</span><span class="o">;</span>
-</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">function</span> <span class="kd">set</span> <span class="nx">thumbURL</span><span class="p">(</span><span class="nx">v</span><span class="o">:</span><span class="nb">String</span><span class="p">)</span><span class="o">:</span><span class="nx">void</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="nx">_thumbURL</span> <span class="o">=</span> <span class="nx">v</span><span class="o">;</span>
+</span><span class='line'>  <span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'>  <span class="kd">public</span> <span class="kd">function</span> <span class="kd">get</span> <span class="n">URL</span><span class="o">():</span><span class="n">String</span>
-</span><span class='line'>  <span class="o">{</span>
-</span><span class='line'>      <span class="k">return</span> <span class="n">_URL</span><span class="o">;</span>
-</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">function</span> <span class="kd">get</span> <span class="nx">URL</span><span class="p">()</span><span class="o">:</span><span class="nb">String</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="k">return</span> <span class="nx">_URL</span><span class="o">;</span>
+</span><span class='line'>  <span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'>  <span class="kd">public</span> <span class="kd">function</span> <span class="kd">set</span> <span class="n">URL</span><span class="o">(</span><span class="n">v</span><span class="o">:</span><span class="n">String</span><span class="o">):</span><span class="kc">void</span>
-</span><span class='line'>  <span class="o">{</span>
-</span><span class='line'>      <span class="n">_URL</span> <span class="o">=</span> <span class="n">v</span><span class="o">;</span>
-</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">function</span> <span class="kd">set</span> <span class="nx">URL</span><span class="p">(</span><span class="nx">v</span><span class="o">:</span><span class="nb">String</span><span class="p">)</span><span class="o">:</span><span class="nx">void</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="nx">_URL</span> <span class="o">=</span> <span class="nx">v</span><span class="o">;</span>
+</span><span class='line'>  <span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>List with custom renderer:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='as3'><span class='line'><span class="o">&lt;</span><span class="n">list</span><span class="o">&gt;</span>
-</span><span class='line'>  <span class="o">&lt;</span><span class="n">label</span> <span class="n">id</span><span class="o">=</span><span class="s2">&quot;URL&quot;</span> <span class="o">/&gt;</span>
-</span><span class='line'>  <span class="o">&lt;</span><span class="n">imageLoader</span> <span class="n">id</span><span class="o">=</span><span class="s2">&quot;thubmUrl&quot;</span> <span class="o">/&gt;</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">list</span><span class="o">&gt;</span>
+</span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -454,7 +444,7 @@
 </ol>
 
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>GalleryView.as</span><a href='https://bitbucket.org/ajukraine/madcomponents-robotlegs-flickrgallerynometa/src/tip/src/org/robotlegs/demos/imagegallery/views/components/mad/GalleryView.as'>link</a></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -479,31 +469,31 @@
 <span class='line-number'>23</span>
 <span class='line-number'>24</span>
 <span class='line-number'>25</span>
-</pre></td><td class='code'><pre><code class='as3'><span class='line'><span class="kd">protected</span> <span class="kd">static</span> <span class="kd">function </span><span class="nf">imageListToArray</span><span class="o">(</span><span class="n">list</span><span class="o">:</span> <span class="kt">IList</span><span class="o">):</span> <span class="kt">Array</span>
-</span><span class='line'><span class="o">{</span>
-</span><span class='line'>  <span class="kd">var</span> <span class="n">images</span><span class="p">:</span> <span class="kt">Array</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">Array</span><span class="o">();</span>
+</pre></td><td class='code'><pre><code class='as'><span class='line'><span class="kd">protected</span> <span class="kd">static</span> <span class="kd">function</span> <span class="nx">imageListToArray</span><span class="p">(</span><span class="nx">list</span><span class="o">:</span> <span class="nx">IList</span><span class="p">)</span><span class="o">:</span> <span class="nb">Array</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="k">var</span> <span class="nx">images</span><span class="o">:</span> <span class="nb">Array</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Array</span><span class="p">();</span>
 </span><span class='line'>  
-</span><span class='line'>  <span class="k">for</span> <span class="o">(</span><span class="kd">var</span> <span class="n">i</span><span class="p">:</span><span class="kt">int</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">list</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="o">++</span><span class="n">i</span> <span class="o">)</span>
-</span><span class='line'>  <span class="o">{</span>
-</span><span class='line'>      <span class="kd">var</span> <span class="n">image</span><span class="p">:</span> <span class="kt">GalleryImage</span> <span class="o">=</span> <span class="n">GalleryImage</span><span class="o">(</span><span class="n">list</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
-</span><span class='line'>      <span class="n">images</span><span class="o">.</span><span class="na">push</span><span class="o">(</span>
-</span><span class='line'>      <span class="o">{</span>
-</span><span class='line'>          <span class="n">URL</span><span class="o">:</span> <span class="n">image</span><span class="o">.</span><span class="na">URL</span><span class="o">,</span>
-</span><span class='line'>          <span class="n">thumbURL</span><span class="o">:</span> <span class="n">image</span><span class="o">.</span><span class="na">thumbURL</span><span class="o">,</span>
-</span><span class='line'>          <span class="n">selected</span><span class="o">:</span> <span class="n">image</span><span class="o">.</span><span class="na">selected</span>
-</span><span class='line'>      <span class="o">});</span>
-</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>  <span class="k">for</span> <span class="p">(</span><span class="k">var</span> <span class="nx">i</span><span class="o">:</span><span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">list</span><span class="p">.</span><span class="nx">length</span><span class="o">;</span> <span class="o">++</span><span class="nx">i</span> <span class="p">)</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="k">var</span> <span class="nx">image</span><span class="o">:</span> <span class="nx">GalleryImage</span> <span class="o">=</span> <span class="nx">GalleryImage</span><span class="p">(</span><span class="nx">list</span><span class="p">[</span><span class="nx">i</span><span class="p">]);</span>
+</span><span class='line'>      <span class="nx">images</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>          <span class="nx">URL</span><span class="o">:</span> <span class="nx">image</span><span class="p">.</span><span class="nx">URL</span><span class="o">,</span>
+</span><span class='line'>          <span class="nx">thumbURL</span><span class="o">:</span> <span class="nx">image</span><span class="p">.</span><span class="nx">thumbURL</span><span class="o">,</span>
+</span><span class='line'>          <span class="nx">selected</span><span class="o">:</span> <span class="nx">image</span><span class="p">.</span><span class="nx">selected</span>
+</span><span class='line'>      <span class="p">});</span>
+</span><span class='line'>  <span class="p">}</span>
 </span><span class='line'>  
-</span><span class='line'>  <span class="k">return</span> <span class="n">images</span><span class="o">;</span>
-</span><span class='line'><span class="o">}</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nx">images</span><span class="o">;</span>
+</span><span class='line'><span class="p">}</span>
 </span><span class='line'>
 </span><span class='line'><span class="c1">// ... some code ...</span>
 </span><span class='line'>
-</span><span class='line'><span class="kd">public</span> <span class="kd">function</span> <span class="kd">set</span> <span class="n">dataProvider</span><span class="o">(</span><span class="n">value</span><span class="o">:</span><span class="n">IList</span><span class="o">):</span><span class="kc">void</span>
-</span><span class='line'><span class="o">{</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">function</span> <span class="kd">set</span> <span class="nx">dataProvider</span><span class="p">(</span><span class="nx">value</span><span class="o">:</span><span class="nx">IList</span><span class="p">)</span><span class="o">:</span><span class="nx">void</span>
+</span><span class='line'><span class="p">{</span>
 </span><span class='line'>  <span class="c1">// UIList doesn&#39;t recognize user-defined properties</span>
-</span><span class='line'>  <span class="n">_dgThumbnails</span><span class="o">.</span><span class="na">data</span> <span class="o">=</span> <span class="n">imageListToArray</span><span class="o">(</span><span class="n">value</span><span class="o">);</span>
-</span><span class='line'><span class="o">}</span>
+</span><span class='line'>  <span class="nx">_dgThumbnails</span><span class="p">.</span><span class="nx">data</span> <span class="o">=</span> <span class="nx">imageListToArray</span><span class="p">(</span><span class="nx">value</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -511,29 +501,29 @@
 
 <h3>You cannot access children views in Mediator.onRegister()</h3>
 
-<p>This problem appears when you want access view&rsquo;s children within <code>onRegister()</code> function of view&rsquo;s mediator. But why? It happens because the mediator is created right after view&rsquo;s <code>ADDED_TO_STAGE</code> event is fired. However MadComponents contaiers are added to it&rsquo;s parent display list in the first line of it&rsquo;s constructor, and after that children creation takes place &ndash; so mediator is created between those two phases. I&rsquo;ve met this problem in <a href="https://bitbucket.org/ajukraine/madcomponents-robotlegs-flickrgallerynometa/src/tip/src/org/robotlegs/demos/imagegallery/views/mediators/GalleryLabelMediator.as">GalleryLabelMediator</a>.</p>
+<p>This problem appears when you want access view&rsquo;s children within <code>onRegister()</code> function of view&rsquo;s mediator. But why? It happens because the mediator is created right after view&rsquo;s <code>ADDED_TO_STAGE</code> event is fired. However MadComponents contaiers are added to it&rsquo;s parent display list in the first line of it&rsquo;s constructor, and after that children creation takes place &ndash; so mediator is created between those two phases. I&rsquo;ve met this problem in <code>GalleryLabelMediator</code>.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>GalleryLabelMediator.as</span><a href='https://bitbucket.org/ajukraine/madcomponents-robotlegs-flickrgallerynometa/src/tip/src/org/robotlegs/demos/imagegallery/views/mediators/GalleryLabelMediator.as'>link</a></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='as3'><span class='line'><span class="kd">override</span> <span class="kd">public</span> <span class="kd">function </span><span class="nf">onRegister</span><span class="o">():</span><span class="kt">void</span>
-</span><span class='line'><span class="o">{</span>
-</span><span class='line'>  <span class="n">addContextListener</span><span class="o">(</span><span class="n">GallerySearchEvent</span><span class="o">.</span><span class="na">SEARCH</span><span class="o">,</span> <span class="n">handleSearch</span> <span class="o">);</span>
+</pre></td><td class='code'><pre><code class='as'><span class='line'><span class="kd">override</span> <span class="kd">public</span> <span class="kd">function</span> <span class="nx">onRegister</span><span class="p">()</span><span class="o">:</span><span class="nx">void</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="nx">addContextListener</span><span class="p">(</span><span class="nx">GallerySearchEvent</span><span class="p">.</span><span class="nx">SEARCH</span><span class="o">,</span> <span class="nx">handleSearch</span> <span class="p">);</span>
 </span><span class='line'>
-</span><span class='line'>  <span class="n">view</span><span class="o">.</span><span class="na">text</span> <span class="o">=</span> <span class="s2">&quot;interestingness&quot;</span><span class="o">;</span>
-</span><span class='line'>  <span class="n">view</span><span class="o">.</span><span class="na">setVisibility</span><span class="o">(</span><span class="n">service</span><span class="o">.</span><span class="na">searchAvailable</span><span class="o">);</span>
-</span><span class='line'><span class="o">}</span>
+</span><span class='line'>  <span class="nx">view</span><span class="p">.</span><span class="nx">text</span> <span class="o">=</span> <span class="s2">&quot;interestingness&quot;</span><span class="o">;</span>
+</span><span class='line'>  <span class="nx">view</span><span class="p">.</span><span class="nx">setVisibility</span><span class="p">(</span><span class="nx">service</span><span class="p">.</span><span class="nx">searchAvailable</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
 <p>Here mediator tries to access view&rsquo;s label text, but it doesn&rsquo;t exist at the time of <code>onRegister()</code> call.
 In order to handle this, you should consider to perform initialization step of view inside view&rsquo;s constructor using data, passed from mediator.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>GalleryLabel.as</span><a href='https://bitbucket.org/ajukraine/madcomponents-robotlegs-flickrgallerynometa/src/tip/src/org/robotlegs/demos/imagegallery/views/components/mad/GalleryLabel.as'>link</a></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -589,62 +579,62 @@ In order to handle this, you should consider to perform initialization step of v
 <span class='line-number'>54</span>
 <span class='line-number'>55</span>
 <span class='line-number'>56</span>
-</pre></td><td class='code'><pre><code class='as3'><span class='line'><span class="k">package</span> <span class="nn">org.robotlegs.demos.imagegallery.views.components.mad</span>
-</span><span class='line'><span class="o">{</span>
-</span><span class='line'>  <span class="k">import</span> <span class="nn">com.danielfreeman.extendedMadness.UIPanel</span><span class="o">;</span>
-</span><span class='line'>  <span class="k">import</span> <span class="nn">com.danielfreeman.madcomponents.Attributes</span><span class="o">;</span>
-</span><span class='line'>  <span class="k">import</span> <span class="nn">com.danielfreeman.madcomponents.UI</span><span class="o">;</span>
-</span><span class='line'>  <span class="k">import</span> <span class="nn">com.danielfreeman.madcomponents.UILabel</span><span class="o">;</span>
-</span><span class='line'>  <span class="k">import</span> <span class="nn">flash.display.Sprite</span><span class="o">;</span>
-</span><span class='line'>  <span class="k">import</span> <span class="nn">flash.events.Event</span><span class="o">;</span>
-</span><span class='line'>  <span class="k">import</span> <span class="nn">flash.text.TextFormat</span><span class="o">;</span>
-</span><span class='line'>  <span class="k">import</span> <span class="nn">flash.text.TextFormatAlign</span><span class="o">;</span>
-</span><span class='line'>  <span class="k">import</span> <span class="nn">org.robotlegs.demos.imagegallery.views.components.api.IGalleryLabel</span><span class="o">;</span>
+</pre></td><td class='code'><pre><code class='as'><span class='line'><span class="kd">package</span> <span class="nx">org</span><span class="p">.</span><span class="nx">robotlegs</span><span class="p">.</span><span class="nx">demos</span><span class="p">.</span><span class="nx">imagegallery</span><span class="p">.</span><span class="nx">views</span><span class="p">.</span><span class="nx">components</span><span class="p">.</span><span class="nx">mad</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="kd">import</span> <span class="nx">com</span><span class="p">.</span><span class="nx">danielfreeman</span><span class="p">.</span><span class="nx">extendedMadness</span><span class="p">.</span><span class="nx">UIPanel</span><span class="o">;</span>
+</span><span class='line'>  <span class="kd">import</span> <span class="nx">com</span><span class="p">.</span><span class="nx">danielfreeman</span><span class="p">.</span><span class="nx">madcomponents</span><span class="p">.</span><span class="nx">Attributes</span><span class="o">;</span>
+</span><span class='line'>  <span class="kd">import</span> <span class="nx">com</span><span class="p">.</span><span class="nx">danielfreeman</span><span class="p">.</span><span class="nx">madcomponents</span><span class="p">.</span><span class="nx">UI</span><span class="o">;</span>
+</span><span class='line'>  <span class="kd">import</span> <span class="nx">com</span><span class="p">.</span><span class="nx">danielfreeman</span><span class="p">.</span><span class="nx">madcomponents</span><span class="p">.</span><span class="nx">UILabel</span><span class="o">;</span>
+</span><span class='line'>  <span class="kd">import</span> <span class="nx">flash</span><span class="p">.</span><span class="nx">display</span><span class="p">.</span><span class="nb">Sprite</span><span class="o">;</span>
+</span><span class='line'>  <span class="kd">import</span> <span class="nx">flash</span><span class="p">.</span><span class="nx">events</span><span class="p">.</span><span class="nb">Event</span><span class="o">;</span>
+</span><span class='line'>  <span class="kd">import</span> <span class="nx">flash</span><span class="p">.</span><span class="nx">text</span><span class="p">.</span><span class="nb">TextFormat</span><span class="o">;</span>
+</span><span class='line'>  <span class="kd">import</span> <span class="nx">flash</span><span class="p">.</span><span class="nx">text</span><span class="p">.</span><span class="nb">TextFormatAlign</span><span class="o">;</span>
+</span><span class='line'>  <span class="kd">import</span> <span class="nx">org</span><span class="p">.</span><span class="nx">robotlegs</span><span class="p">.</span><span class="nx">demos</span><span class="p">.</span><span class="nx">imagegallery</span><span class="p">.</span><span class="nx">views</span><span class="p">.</span><span class="nx">components</span><span class="p">.</span><span class="nx">api</span><span class="p">.</span><span class="nx">IGalleryLabel</span><span class="o">;</span>
 </span><span class='line'>  
 </span><span class='line'>  <span class="cm">/**</span>
 </span><span class='line'><span class="cm">  * @author Bohdan Makohin</span>
 </span><span class='line'><span class="cm">  */</span>
-</span><span class='line'>  <span class="kd">public</span> <span class="kd">class</span> <span class="n">GalleryLabel</span> <span class="kd">extends</span> <span class="n">UIPanel</span> <span class="kd">implements</span> <span class="n">IGalleryLabel</span>
-</span><span class='line'>  <span class="o">{</span>
-</span><span class='line'>      <span class="kd">private</span> <span class="kd">var</span> <span class="n">_text</span><span class="p">:</span> <span class="kt">String</span><span class="o">;</span>
-</span><span class='line'>      <span class="kd">private</span> <span class="kd">var</span> <span class="n">_label</span><span class="p">:</span> <span class="kt">UILabel</span><span class="o">;</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">class</span> <span class="nx">GalleryLabel</span> <span class="kd">extends</span> <span class="nx">UIPanel</span> <span class="kd">implements</span> <span class="nx">IGalleryLabel</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="kd">private</span> <span class="k">var</span> <span class="nx">_text</span><span class="o">:</span> <span class="nb">String</span><span class="o">;</span>
+</span><span class='line'>      <span class="kd">private</span> <span class="k">var</span> <span class="nx">_label</span><span class="o">:</span> <span class="nx">UILabel</span><span class="o">;</span>
 </span><span class='line'>      
-</span><span class='line'>      <span class="kd">protected</span> <span class="kd">const</span> <span class="n">LAYOUT</span><span class="p">:</span> <span class="kt">XML</span> <span class="o">=</span>
-</span><span class='line'>          <span class="o">&lt;</span><span class="n">vertical</span><span class="o">&gt;</span>
-</span><span class='line'>              <span class="o">&lt;</span><span class="n">label</span> <span class="n">id</span><span class="o">=</span><span class="s2">&quot;label&quot;</span> <span class="n">alignH</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="o">&gt;</span>
-</span><span class='line'>                  <span class="o">&lt;</span><span class="n">font</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#ffffff&quot;</span> <span class="n">size</span><span class="o">=</span><span class="s2">&quot;12&quot;</span><span class="o">&gt;&lt;</span><span class="n">b</span><span class="o">&gt;&lt;/</span><span class="n">b</span><span class="o">&gt;&lt;/</span><span class="n">font</span><span class="o">&gt;</span>
-</span><span class='line'>              <span class="o">&lt;/</span><span class="n">label</span><span class="o">&gt;</span>
-</span><span class='line'>          <span class="o">&lt;/</span><span class="n">vertical</span><span class="o">&gt;;</span>
+</span><span class='line'>      <span class="kd">protected</span> <span class="kd">const</span> <span class="nx">LAYOUT</span><span class="o">:</span> <span class="nb">XML</span> <span class="o">=</span>
+</span><span class='line'>          <span class="o">&lt;</span><span class="nx">vertical</span><span class="o">&gt;</span>
+</span><span class='line'>              <span class="o">&lt;</span><span class="nx">label</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;label&quot;</span> <span class="nx">alignH</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="o">&gt;</span>
+</span><span class='line'>                  <span class="o">&lt;</span><span class="nx">font</span> <span class="nx">color</span><span class="o">=</span><span class="s2">&quot;#ffffff&quot;</span> <span class="nx">size</span><span class="o">=</span><span class="s2">&quot;12&quot;</span><span class="o">&gt;&lt;</span><span class="nx">b</span><span class="o">&gt;&lt;/</span><span class="nx">b</span><span class="o">&gt;&lt;/</span><span class="nx">font</span><span class="o">&gt;</span>
+</span><span class='line'>              <span class="o">&lt;/</span><span class="nx">label</span><span class="o">&gt;</span>
+</span><span class='line'>          <span class="o">&lt;/</span><span class="nx">vertical</span><span class="o">&gt;;</span>
 </span><span class='line'>      
-</span><span class='line'>      <span class="kd">public</span> <span class="kd">function </span><span class="nf">GalleryLabel</span><span class="o">(</span><span class="n">screen</span><span class="o">:</span><span class="kt">Sprite</span><span class="o">,</span> <span class="n">xml</span><span class="o">:</span><span class="kt">XML</span><span class="o">,</span> <span class="n">attributes</span><span class="o">:</span><span class="kt">Attributes</span><span class="o">=</span><span class="kc">null</span><span class="o">,</span> <span class="n">row</span><span class="o">:</span><span class="kt">Boolean</span><span class="o">=</span><span class="kc">false</span><span class="o">,</span> <span class="n">inGroup</span><span class="o">:</span><span class="kt">Boolean</span><span class="o">=</span><span class="kc">false</span><span class="o">)</span>
-</span><span class='line'>      <span class="o">{</span>
-</span><span class='line'>          <span class="kd">super</span><span class="o">(</span><span class="n">screen</span><span class="o">,</span> <span class="n">LAYOUT</span><span class="o">,</span> <span class="n">attributes</span><span class="o">,</span> <span class="n">row</span><span class="o">,</span> <span class="n">inGroup</span><span class="o">);</span>
+</span><span class='line'>      <span class="kd">public</span> <span class="kd">function</span> <span class="nx">GalleryLabel</span><span class="p">(</span><span class="nx">screen</span><span class="o">:</span><span class="nb">Sprite</span><span class="o">,</span> <span class="nx">xml</span><span class="o">:</span><span class="nb">XML</span><span class="o">,</span> <span class="nx">attributes</span><span class="o">:</span><span class="nx">Attributes</span><span class="o">=</span><span class="kc">null</span><span class="o">,</span> <span class="nx">row</span><span class="o">:</span><span class="nb">Boolean</span><span class="o">=</span><span class="kc">false</span><span class="o">,</span> <span class="nx">inGroup</span><span class="o">:</span><span class="nb">Boolean</span><span class="o">=</span><span class="kc">false</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>          <span class="kd">super</span><span class="p">(</span><span class="nx">screen</span><span class="o">,</span> <span class="nx">LAYOUT</span><span class="o">,</span> <span class="nx">attributes</span><span class="o">,</span> <span class="nx">row</span><span class="o">,</span> <span class="nx">inGroup</span><span class="p">);</span>
 </span><span class='line'>          
-</span><span class='line'>          <span class="n">_label</span> <span class="o">=</span> <span class="n">UILabel</span><span class="o">(</span><span class="n">findViewById</span><span class="o">(</span><span class="s2">&quot;label&quot;</span><span class="o">));</span>
-</span><span class='line'>          <span class="n">_label</span><span class="o">.</span><span class="na">text</span> <span class="o">=</span> <span class="n">_text</span><span class="o">;</span>
-</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>          <span class="nx">_label</span> <span class="o">=</span> <span class="nx">UILabel</span><span class="p">(</span><span class="nx">findViewById</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">));</span>
+</span><span class='line'>          <span class="nx">_label</span><span class="p">.</span><span class="nx">text</span> <span class="o">=</span> <span class="nx">_text</span><span class="o">;</span>
+</span><span class='line'>      <span class="p">}</span>
 </span><span class='line'>      
-</span><span class='line'>      <span class="kd">public</span> <span class="kd">function</span> <span class="kd">get</span> <span class="n">text</span><span class="o">():</span><span class="n">String</span>
-</span><span class='line'>      <span class="o">{</span>
-</span><span class='line'>          <span class="k">return</span> <span class="n">_text</span><span class="o">;</span>
-</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>      <span class="kd">public</span> <span class="kd">function</span> <span class="kd">get</span> <span class="nx">text</span><span class="p">()</span><span class="o">:</span><span class="nb">String</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>          <span class="k">return</span> <span class="nx">_text</span><span class="o">;</span>
+</span><span class='line'>      <span class="p">}</span>
 </span><span class='line'>      
-</span><span class='line'>      <span class="kd">public</span> <span class="kd">function</span> <span class="kd">set</span> <span class="n">text</span><span class="o">(</span><span class="n">value</span><span class="o">:</span><span class="n">String</span><span class="o">):</span><span class="kc">void</span>
-</span><span class='line'>      <span class="o">{</span>
-</span><span class='line'>          <span class="n">_text</span> <span class="o">=</span> <span class="n">value</span><span class="o">;</span>
-</span><span class='line'>          <span class="k">if</span> <span class="o">(</span><span class="n">_label</span><span class="o">)</span>
-</span><span class='line'>          <span class="o">{</span>
-</span><span class='line'>              <span class="n">_label</span><span class="o">.</span><span class="na">text</span> <span class="o">=</span> <span class="n">_text</span><span class="o">;</span>
-</span><span class='line'>              <span class="n">doLayout</span><span class="o">();</span>
-</span><span class='line'>          <span class="o">}</span>
-</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>      <span class="kd">public</span> <span class="kd">function</span> <span class="kd">set</span> <span class="nx">text</span><span class="p">(</span><span class="nx">value</span><span class="o">:</span><span class="nb">String</span><span class="p">)</span><span class="o">:</span><span class="nx">void</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>          <span class="nx">_text</span> <span class="o">=</span> <span class="nx">value</span><span class="o">;</span>
+</span><span class='line'>          <span class="k">if</span> <span class="p">(</span><span class="nx">_label</span><span class="p">)</span>
+</span><span class='line'>          <span class="p">{</span>
+</span><span class='line'>              <span class="nx">_label</span><span class="p">.</span><span class="nx">text</span> <span class="o">=</span> <span class="nx">_text</span><span class="o">;</span>
+</span><span class='line'>              <span class="nx">doLayout</span><span class="p">();</span>
+</span><span class='line'>          <span class="p">}</span>
+</span><span class='line'>      <span class="p">}</span>
 </span><span class='line'>      
-</span><span class='line'>      <span class="kd">public</span> <span class="kd">function </span><span class="nf">setVisibility</span><span class="o">(</span><span class="n">visibility</span> <span class="o">:</span><span class="kt">Boolean</span><span class="o">):</span><span class="kt">void</span>
-</span><span class='line'>      <span class="o">{</span>
-</span><span class='line'>          <span class="k">this</span><span class="o">.</span><span class="na">visible</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">_inGroup</span> <span class="o">=</span> <span class="n">visibility</span> <span class="o">;</span>
-</span><span class='line'>      <span class="o">}</span>
-</span><span class='line'>  <span class="o">}</span>
-</span><span class='line'><span class="o">}</span>
+</span><span class='line'>      <span class="kd">public</span> <span class="kd">function</span> <span class="nx">setVisibility</span><span class="p">(</span><span class="nx">visibility</span> <span class="o">:</span><span class="nb">Boolean</span><span class="p">)</span><span class="o">:</span><span class="nx">void</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>          <span class="k">this</span><span class="p">.</span><span class="nx">visible</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">_inGroup</span> <span class="o">=</span> <span class="nx">visibility</span> <span class="o">;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -653,6 +643,71 @@ In order to handle this, you should consider to perform initialization step of v
 <h3>Compile and try</h3>
 
 <p>&ldquo;Madcomponents-robotlegs-FlickrGalleryNoMeta&rdquo; project is accessible at <a href="https://bitbucket.org/ajukraine/madcomponents-robotlegs-flickrgallerynometa/overview">BitBucket mercurial repository</a>. You could clone the repo or download <a href="https://bitbucket.org/ajukraine/madcomponents-robotlegs-flickrgallerynometa/get/tip.zip">archive with sources</a>. If you want to compile project by yourself, you may use FlashDevelop&rsquo;s project file. For those, who want just to play with application, I&rsquo;ve uploaded the <a href="https://bitbucket.org/ajukraine/madcomponents-robotlegs-flickrgallerynometa/downloads/madcomponentsrobotlegsFlickrGalleryNoMeta.swf">madcomponentsrobotlegsFlickrGalleryNoMeta.swf</a> file, built with AIR 3.4. It could be opened in latest flash player (in order to activate layout, resize application window a bit after opening  the player).</p>
+
+<script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js?ver=2.2'></script>
+
+
+
+
+<script type="text/javascript" charset="utf-8">
+
+    /**
+     * Courtesy of Kimili Flash Embed - Version 2.2
+     * by Michael Bester - http://kimili.com
+     */
+
+    (function(){
+        try {
+            // Disabling SWFObject's Autohide feature
+            if (typeof swfobject.switchOffAutoHideShow === "function") {
+                swfobject.switchOffAutoHideShow();
+            }
+        } catch(e) {}
+    })();
+</script>
+
+
+
+
+<script type="text/javascript" charset="utf-8">
+
+    /**
+     * Courtesy of Kimili Flash Embed - Version 2.2
+     * by Michael Bester - http://kimili.com
+     */
+
+    (function(){
+        try {
+            // Registering Statically Published SWFs
+            swfobject.registerObject("fm_RobotlegsFlickrGallery_499928491","10.0.0");
+        } catch(e) {}
+    })();
+</script>
+
+
+
+
+<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
+            id="fm_RobotlegsFlickrGallery_499928491"
+            class="flashmovie"
+            width="700"
+            height="700">
+    <param name="movie" value="http://joelhooks.com/examples/galleryNoMeta/RobotlegsFlickrGallery.swf" />
+    <!--[if !IE]>&#8211;>
+    <object type="application/x-shockwave-flash"
+            data="http://joelhooks.com/examples/galleryNoMeta/RobotlegsFlickrGallery.swf"
+            name="fm_RobotlegsFlickrGallery_499928491"
+            width="700"
+            height="700">
+    <!--<![endif]-->
+        
+<p><a onclick="javascript:pageTracker._trackPageview('/outgoing/adobe.com/go/getflashplayer');"  href="http://adobe.com/go/getflashplayer"><img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" /></a></p>
+
+    <!--[if !IE]>&#8211;>
+    </object>
+    <!--<![endif]-->
+</object>
+
 
 <h3>I was lazy</h3>
 
