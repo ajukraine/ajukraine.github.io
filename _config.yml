@@ -2,7 +2,7 @@
 #      Main Configs       #
 # ----------------------- #
 
-url: http://ajukraine.github.io
+url: http://ajukraine.com
 title: Bohdan Makohin
 subtitle: aka ajukraine
 author: Bohdan Makohin
@@ -30,6 +30,7 @@ root: /
 permalink: /blog/:year/:month/:day/:title/
 source: source
 destination: public
+encoding: utf-8
 plugins: plugins
 code_dir: downloads/code
 category_dir: blog/categories
@@ -90,7 +91,7 @@ delicious_user:
 delicious_count: 3
 
 # Disqus Comments
-disqus_short_name:
+disqus_short_name: ajukraine
 disqus_show_comment_count: false
 
 # Google Analytics
