@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Programming | Bohdan Makohin]]></title>
   <link href="http://ajukraine.com/blog/categories/programming/atom.xml" rel="self"/>
   <link href="http://ajukraine.com/"/>
-  <updated>2014-04-21T22:23:36+03:00</updated>
+  <updated>2014-04-21T23:06:12+03:00</updated>
   <id>http://ajukraine.com/</id>
   <author>
     <name><![CDATA[Bohdan Makohin]]></name>
@@ -24,7 +24,7 @@
 
 <p>During last days I was playing with amazing AS3 library <a href="http://code.google.com/p/mad-components/">MadComponents</a> &ndash; lightweight open-source UI framework for Flash. This library is maintained by <a href="http://madskool.wordpress.com/about-2/">Daniel Freeman</a> and he claims that &ldquo;MadComponents&rdquo; targets mobile apps via Adobe AIR. And I could say that the library proves that point: it&rsquo;s fast and provides ready-to-use components, which fit to mobile UI, out of the box. One of the great features is a declarative UI markup: just feed framework with correct XML and it produces components' tree that automatically layouts depending on device screen dimensions.</p>
 
-<p>```
+<p>``` as3
 protected const LAYOUT: XML =</p>
 
 <pre><code>&lt;horizontal alignH="right"&gt;
@@ -105,12 +105,12 @@ public function GalleryViewMediator(galleryView:IGalleryView)
 <p>```
 protected const LAYOUT:XML =</p>
 
-<pre><code>&amp;lt;vertical xmlns:mad="org.robotlegs.demos.imagegallery.views.mad"
-    gapV="0" gapH="0" paddingV="0" border="false"&amp;gt;
-    &amp;lt;mad:GalleryHeader /&amp;gt;
-    &amp;lt;mad:GallerySearch id="search" /&amp;gt;
-    &amp;lt;mad:GalleryView id="gallery" /&amp;gt;
-&amp;lt;/vertical&amp;gt;;
+<pre><code>&lt;vertical xmlns:mad="org.robotlegs.demos.imagegallery.views.mad"
+    gapV="0" gapH="0" paddingV="0" border="false"&gt;
+    &lt;mad:GalleryHeader /&gt;
+    &lt;mad:GallerySearch id="search" /&gt;
+    &lt;mad:GalleryView id="gallery" /&gt;
+&lt;/vertical&gt;;
 </code></pre>
 
 <p>```</p>
@@ -342,11 +342,11 @@ public class GalleryLabel extends UIPanel implements IGalleryLabel
     private var _label: UILabel;
 
     protected const LAYOUT: XML =
-        &amp;lt;vertical&amp;gt;
-            &amp;lt;label id="label" alignH="right"&amp;gt;
-                &amp;lt;font color="#ffffff" size="12"&amp;gt;&amp;lt;b&amp;gt;&amp;lt;/b&amp;gt;&amp;lt;/font&amp;gt;
-            &amp;lt;/label&amp;gt;
-        &amp;lt;/vertical&amp;gt;;
+        &lt;vertical&gt;
+            &lt;label id="label" alignH="right"&gt;
+                &lt;font color="#ffffff" size="12"&gt;&lt;b&gt;&lt;/b&gt;&lt;/font&gt;
+            &lt;/label&gt;
+        &lt;/vertical&gt;;
 
     public function GalleryLabel(screen:Sprite, xml:XML, attributes:Attributes=null, row:Boolean=false, inGroup:Boolean=false) 
     {

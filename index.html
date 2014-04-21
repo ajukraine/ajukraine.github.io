@@ -100,16 +100,17 @@
 
 <p>During last days I was playing with amazing AS3 library <a href="http://code.google.com/p/mad-components/">MadComponents</a> &ndash; lightweight open-source UI framework for Flash. This library is maintained by <a href="http://madskool.wordpress.com/about-2/">Daniel Freeman</a> and he claims that &ldquo;MadComponents&rdquo; targets mobile apps via Adobe AIR. And I could say that the library proves that point: it&rsquo;s fast and provides ready-to-use components, which fit to mobile UI, out of the box. One of the great features is a declarative UI markup: just feed framework with correct XML and it produces components&#8217; tree that automatically layouts depending on device screen dimensions.</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>protected const LAYOUT: XML =
-</span><span class='line'>  &lt;horizontal alignH="right"&gt;
-</span><span class='line'>      &lt;input id="searchTermInput" width="150" /&gt;
-</span><span class='line'>      &lt;button id="submitSearchButton"&gt;search&lt;/button&gt;
-</span><span class='line'>  &lt;/horizontal&gt;;</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='as3'><span class='line'><span class="kd">protected</span> <span class="kd">const</span> <span class="n">LAYOUT</span><span class="p">:</span> <span class="kt">XML</span> <span class="o">=</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="n">horizontal</span> <span class="n">alignH</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="o">&gt;</span>
+</span><span class='line'>      <span class="o">&lt;</span><span class="n">input</span> <span class="n">id</span><span class="o">=</span><span class="s2">&quot;searchTermInput&quot;</span> <span class="n">width</span><span class="o">=</span><span class="s2">&quot;150&quot;</span> <span class="o">/&gt;</span>
+</span><span class='line'>      <span class="o">&lt;</span><span class="n">button</span> <span class="n">id</span><span class="o">=</span><span class="s2">&quot;submitSearchButton&quot;</span><span class="o">&gt;</span><span class="n">search</span><span class="o">&lt;/</span><span class="n">button</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="o">&lt;/</span><span class="n">horizontal</span><span class="o">&gt;;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>I&rsquo;ve created prototype for my commercial project very quickly utilizing MadComponents. Since prototype phase had satisfied my needs I&rsquo;ve decided to introduce the library with my favourite ActionScript MVC framework <a href="http://www.robotlegs.org/">RobotLegs</a>.</p>
@@ -132,7 +133,7 @@
 
 <p>Here how I map mediators to mad components.</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -148,27 +149,28 @@
 <span class='line-number'>14</span>
 <span class='line-number'>15</span>
 <span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>import org.robotlegs.demos.imagegallery.views.components.mad.*;
-</span><span class='line'>import org.robotlegs.demos.imagegallery.views.components.api.*;
+</pre></td><td class='code'><pre><code class='as3'><span class='line'><span class="k">import</span> <span class="nn">org.robotlegs.demos.imagegallery.views.components.mad.</span><span class="o">*;</span>
+</span><span class='line'><span class="k">import</span> <span class="nn">org.robotlegs.demos.imagegallery.views.components.api.</span><span class="o">*;</span>
 </span><span class='line'>
-</span><span class='line'>// ... more code ...
+</span><span class='line'><span class="c1">// ... more code ...</span>
 </span><span class='line'>
-</span><span class='line'>override public function startup():void
-</span><span class='line'>{
-</span><span class='line'>  //map view
-</span><span class='line'>  mediatorMap.mapView(GalleryView, GalleryViewMediator, IGalleryView);
-</span><span class='line'>  mediatorMap.mapView(GallerySearch, GallerySearchMediator, IGallerySearch);
-</span><span class='line'>  mediatorMap.mapView(GalleryLabel, GalleryLabelMediator, IGalleryLabel);
+</span><span class='line'><span class="kd">override</span> <span class="kd">public</span> <span class="kd">function </span><span class="nf">startup</span><span class="o">():</span><span class="kt">void</span>
+</span><span class='line'><span class="o">{</span>
+</span><span class='line'>  <span class="c1">//map view</span>
+</span><span class='line'>  <span class="n">mediatorMap</span><span class="o">.</span><span class="na">mapView</span><span class="o">(</span><span class="n">GalleryView</span><span class="o">,</span> <span class="n">GalleryViewMediator</span><span class="o">,</span> <span class="n">IGalleryView</span><span class="o">);</span>
+</span><span class='line'>  <span class="n">mediatorMap</span><span class="o">.</span><span class="na">mapView</span><span class="o">(</span><span class="n">GallerySearch</span><span class="o">,</span> <span class="n">GallerySearchMediator</span><span class="o">,</span> <span class="n">IGallerySearch</span><span class="o">);</span>
+</span><span class='line'>  <span class="n">mediatorMap</span><span class="o">.</span><span class="na">mapView</span><span class="o">(</span><span class="n">GalleryLabel</span><span class="o">,</span> <span class="n">GalleryLabelMediator</span><span class="o">,</span> <span class="n">IGalleryLabel</span><span class="o">);</span>
 </span><span class='line'>  
-</span><span class='line'>  super.startup();
-</span><span class='line'>}
+</span><span class='line'>  <span class="kd">super</span><span class="o">.</span><span class="na">startup</span><span class="o">();</span>
+</span><span class='line'><span class="o">}</span>
 </span><span class='line'>
-</span><span class='line'>// ... more code ...</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'><span class="c1">// ... more code ...</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>The third parameter of <code>mapView</code> specifies the type that mediator depends on. For example, <code>GalleryViewMediator</code> depends on <code>IGalleryView</code> type. The injector will automatically pass the view into constructor.</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -179,17 +181,18 @@
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>public class GalleryViewMediator extends Mediator
-</span><span class='line'>{
-</span><span class='line'>  private var view:IGalleryView;
+</pre></td><td class='code'><pre><code class='as3'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="n">GalleryViewMediator</span> <span class="kd">extends</span> <span class="n">Mediator</span>
+</span><span class='line'><span class="o">{</span>
+</span><span class='line'>  <span class="kd">private</span> <span class="kd">var</span> <span class="n">view</span><span class="p">:</span><span class="kt">IGalleryView</span><span class="o">;</span>
 </span><span class='line'>
-</span><span class='line'>  public function GalleryViewMediator(galleryView:IGalleryView)
-</span><span class='line'>  {
-</span><span class='line'>      view = galleryView;
-</span><span class='line'>  }
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">function </span><span class="nf">GalleryViewMediator</span><span class="o">(</span><span class="n">galleryView</span><span class="o">:</span><span class="kt">IGalleryView</span><span class="o">)</span>
+</span><span class='line'>  <span class="o">{</span>
+</span><span class='line'>      <span class="n">view</span> <span class="o">=</span> <span class="n">galleryView</span><span class="o">;</span>
+</span><span class='line'>  <span class="o">}</span>
 </span><span class='line'>
-</span><span class='line'>  // ... more code ...
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>  <span class="c1">// ... more code ...</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h2>Implementing UI interfaces with MadComponents</h2>
@@ -198,25 +201,26 @@
 
 <p>General <a href="https://bitbucket.org/ajukraine/madcomponents-robotlegs-flickrgallerynometa/src/tip/src/MadRobotlegsFlickrGallery.as">layout</a> consists of header, search prompt and gallery view:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>protected const LAYOUT:XML =
-</span><span class='line'>  &lt;vertical xmlns:mad="org.robotlegs.demos.imagegallery.views.mad"
-</span><span class='line'>      gapV="0" gapH="0" paddingV="0" border="false"&gt;
-</span><span class='line'>      &lt;mad:GalleryHeader /&gt;
-</span><span class='line'>      &lt;mad:GallerySearch id="search" /&gt;
-</span><span class='line'>      &lt;mad:GalleryView id="gallery" /&gt;
-</span><span class='line'>  &lt;/vertical&gt;;</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='as3'><span class='line'><span class="kd">protected</span> <span class="kd">const</span> <span class="n">LAYOUT</span><span class="p">:</span><span class="kt">XML</span> <span class="o">=</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="n">vertical</span> <span class="n">xmlns</span><span class="o">:</span><span class="n">mad</span><span class="o">=</span><span class="s2">&quot;org.robotlegs.demos.imagegallery.views.mad&quot;</span>
+</span><span class='line'>      <span class="n">gapV</span><span class="o">=</span><span class="s2">&quot;0&quot;</span> <span class="n">gapH</span><span class="o">=</span><span class="s2">&quot;0&quot;</span> <span class="n">paddingV</span><span class="o">=</span><span class="s2">&quot;0&quot;</span> <span class="n">border</span><span class="o">=</span><span class="s2">&quot;false&quot;</span><span class="o">&gt;</span>
+</span><span class='line'>      <span class="o">&lt;</span><span class="n">mad</span><span class="o">:</span><span class="n">GalleryHeader</span> <span class="o">/&gt;</span>
+</span><span class='line'>      <span class="o">&lt;</span><span class="n">mad</span><span class="o">:</span><span class="n">GallerySearch</span> <span class="n">id</span><span class="o">=</span><span class="s2">&quot;search&quot;</span> <span class="o">/&gt;</span>
+</span><span class='line'>      <span class="o">&lt;</span><span class="n">mad</span><span class="o">:</span><span class="n">GalleryView</span> <span class="n">id</span><span class="o">=</span><span class="s2">&quot;gallery&quot;</span> <span class="o">/&gt;</span>
+</span><span class='line'>  <span class="o">&lt;/</span><span class="n">vertical</span><span class="o">&gt;;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>To split layout into seperate files, I&rsquo;ve utilized the <a href="http://madskool.wordpress.com/2012/01/12/extending-madcomponents/">UI.extend() technique</a>, where custom container componet derives from <code>UIPanel</code> (class from ExtendedMadnessLib). In order to recognize new components by framework, we should put &ldquo;XML tag name &lt;=> Class&rdquo; mapping before whole UI creation:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -225,20 +229,21 @@
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>private function onAddedToStage(e:Event):void
-</span><span class='line'>{
-</span><span class='line'>  UI.extend(
-</span><span class='line'>      ["GalleryHeader", "GallerySearch", "GalleryView", "GalleryLabel"],
-</span><span class='line'>      [GalleryHeader, GallerySearch, GalleryView, GalleryLabel]);
+</pre></td><td class='code'><pre><code class='as3'><span class='line'><span class="kd">private</span> <span class="kd">function </span><span class="nf">onAddedToStage</span><span class="o">(</span><span class="n">e</span><span class="o">:</span><span class="kt">Event</span><span class="o">):</span><span class="kt">void</span>
+</span><span class='line'><span class="o">{</span>
+</span><span class='line'>  <span class="n">UI</span><span class="o">.</span><span class="na">extend</span><span class="o">(</span>
+</span><span class='line'>      <span class="o">[</span><span class="s2">&quot;GalleryHeader&quot;</span><span class="o">,</span> <span class="s2">&quot;GallerySearch&quot;</span><span class="o">,</span> <span class="s2">&quot;GalleryView&quot;</span><span class="o">,</span> <span class="s2">&quot;GalleryLabel&quot;</span><span class="o">],</span>
+</span><span class='line'>      <span class="o">[</span><span class="n">GalleryHeader</span><span class="o">,</span> <span class="n">GallerySearch</span><span class="o">,</span> <span class="n">GalleryView</span><span class="o">,</span> <span class="n">GalleryLabel</span><span class="o">]);</span>
 </span><span class='line'>      
-</span><span class='line'>  UI.PADDING = 0;
-</span><span class='line'>  UIe.create(this, LAYOUT);
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>  <span class="n">UI</span><span class="o">.</span><span class="na">PADDING</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+</span><span class='line'>  <span class="n">UIe</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">LAYOUT</span><span class="o">);</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>Let&rsquo;s look closer at the simplest component <a href="https://bitbucket.org/ajukraine/madcomponents-robotlegs-flickrgallerynometa/src/tip/src/org/robotlegs/demos/imagegallery/views/components/mad/GalleryHeader.as">GalleryHeader</a>. There is no surprising thing in it, except the pattern, which I use for every custom container component. The class&#8217; constructor takes same range of parametres as parent class and passes all given arguments into parent&rsquo;s constructor, except <code>xml</code> parameter. Instead of external XML file, I pass internal <code>LAYOUT</code> constant.</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -265,33 +270,34 @@
 <span class='line-number'>25</span>
 <span class='line-number'>26</span>
 <span class='line-number'>27</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>package org.robotlegs.demos.imagegallery.views.components.mad 
-</span><span class='line'>{
-</span><span class='line'>  import com.danielfreeman.extendedMadness.UIPanel;
-</span><span class='line'>  import com.danielfreeman.madcomponents.Attributes;
-</span><span class='line'>  import flash.display.Sprite;
-</span><span class='line'>  import flash.utils.getQualifiedClassName;
+</pre></td><td class='code'><pre><code class='as3'><span class='line'><span class="k">package</span> <span class="nn">org.robotlegs.demos.imagegallery.views.components.mad</span>
+</span><span class='line'><span class="o">{</span>
+</span><span class='line'>  <span class="k">import</span> <span class="nn">com.danielfreeman.extendedMadness.UIPanel</span><span class="o">;</span>
+</span><span class='line'>  <span class="k">import</span> <span class="nn">com.danielfreeman.madcomponents.Attributes</span><span class="o">;</span>
+</span><span class='line'>  <span class="k">import</span> <span class="nn">flash.display.Sprite</span><span class="o">;</span>
+</span><span class='line'>  <span class="k">import</span> <span class="nn">flash.utils.getQualifiedClassName</span><span class="o">;</span>
 </span><span class='line'>  
-</span><span class='line'>  /**
-</span><span class='line'>   * @author Bohdan Makohin
-</span><span class='line'>   */
-</span><span class='line'>  public class GalleryHeader extends UIPanel
-</span><span class='line'>  {
-</span><span class='line'>      protected const LAYOUT: XML =
-</span><span class='line'>          &lt;horizontal&gt;
-</span><span class='line'>              &lt;image&gt;{getQualifiedClassName(Assets.RobotLegsLogo)}&lt;/image&gt;
-</span><span class='line'>              &lt;label id="headerLabel"&gt;&lt;font size="24"&gt;
-</span><span class='line'>                  &lt;b&gt;Robotlegs: Image Gallery Demo&lt;/b&gt;
-</span><span class='line'>              &lt;/font&gt;&lt;/label&gt;
-</span><span class='line'>          &lt;/horizontal&gt;;
+</span><span class='line'>  <span class="cm">/**</span>
+</span><span class='line'><span class="cm">  * @author Bohdan Makohin</span>
+</span><span class='line'><span class="cm">  */</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">class</span> <span class="n">GalleryHeader</span> <span class="kd">extends</span> <span class="n">UIPanel</span>
+</span><span class='line'>  <span class="o">{</span>
+</span><span class='line'>      <span class="kd">protected</span> <span class="kd">const</span> <span class="n">LAYOUT</span><span class="p">:</span> <span class="kt">XML</span> <span class="o">=</span>
+</span><span class='line'>          <span class="o">&lt;</span><span class="n">horizontal</span><span class="o">&gt;</span>
+</span><span class='line'>              <span class="o">&lt;</span><span class="n">image</span><span class="o">&gt;{</span><span class="n">getQualifiedClassName</span><span class="o">(</span><span class="n">Assets</span><span class="o">.</span><span class="na">RobotLegsLogo</span><span class="o">)}&lt;/</span><span class="n">image</span><span class="o">&gt;</span>
+</span><span class='line'>              <span class="o">&lt;</span><span class="n">label</span> <span class="n">id</span><span class="o">=</span><span class="s2">&quot;headerLabel&quot;</span><span class="o">&gt;&lt;</span><span class="n">font</span> <span class="n">size</span><span class="o">=</span><span class="s2">&quot;24&quot;</span><span class="o">&gt;</span>
+</span><span class='line'>                  <span class="o">&lt;</span><span class="n">b</span><span class="o">&gt;</span><span class="n">Robotlegs</span><span class="o">:</span> <span class="n">Image</span> <span class="n">Gallery</span> <span class="n">Demo</span><span class="o">&lt;/</span><span class="n">b</span><span class="o">&gt;</span>
+</span><span class='line'>              <span class="o">&lt;/</span><span class="n">font</span><span class="o">&gt;&lt;/</span><span class="n">label</span><span class="o">&gt;</span>
+</span><span class='line'>          <span class="o">&lt;/</span><span class="n">horizontal</span><span class="o">&gt;;</span>
 </span><span class='line'>      
-</span><span class='line'>      public function GalleryHeader(screen:Sprite, xml:XML, attributes:Attributes=null, row:Boolean=false, inGroup:Boolean=false) 
-</span><span class='line'>      {
-</span><span class='line'>          super(screen, LAYOUT, attributes, row, inGroup);
-</span><span class='line'>      }
-</span><span class='line'>  }
+</span><span class='line'>      <span class="kd">public</span> <span class="kd">function </span><span class="nf">GalleryHeader</span><span class="o">(</span><span class="n">screen</span><span class="o">:</span><span class="kt">Sprite</span><span class="o">,</span> <span class="n">xml</span><span class="o">:</span><span class="kt">XML</span><span class="o">,</span> <span class="n">attributes</span><span class="o">:</span><span class="kt">Attributes</span><span class="o">=</span><span class="kc">null</span><span class="o">,</span> <span class="n">row</span><span class="o">:</span><span class="kt">Boolean</span><span class="o">=</span><span class="kc">false</span><span class="o">,</span> <span class="n">inGroup</span><span class="o">:</span><span class="kt">Boolean</span><span class="o">=</span><span class="kc">false</span><span class="o">)</span>
+</span><span class='line'>      <span class="o">{</span>
+</span><span class='line'>          <span class="kd">super</span><span class="o">(</span><span class="n">screen</span><span class="o">,</span> <span class="n">LAYOUT</span><span class="o">,</span> <span class="n">attributes</span><span class="o">,</span> <span class="n">row</span><span class="o">,</span> <span class="n">inGroup</span><span class="o">);</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>  <span class="o">}</span>
 </span><span class='line'>
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>Described approach allows to reuse such components and encapsulates implementation details, in contrast to <a href="http://caffeineindustries.com/2011/09/as3-madcomponents-tutorial-series-separation-of-concerns/">Michael Martinez&#8217; practice</a>, where separate class hosts publicly accessed static variable with XML. Let&rsquo;s define pros and cons of both methods (for ease of explanation I will call Martinez&#8217; technique &ldquo;static&rdquo; and mine &ndash; &ldquo;extension&rdquo;).</p>
@@ -300,18 +306,19 @@
 
 <p>MadComponents framework has strong documentation on how to compose single layout for whole application, where XML tree is constructed during compile-time. And &ldquo;static&rdquo; technique utilized same scheme:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>protected static const NAVIGATION:XML = 
-</span><span class='line'>  &lt;navigation id="nav" colour="#C100000" title="Home"&gt;
-</span><span class='line'>  {LIST}
-</span><span class='line'>  {Page0.LAYOUT}
-</span><span class='line'>  {Page1.LAYOUT}
-</span><span class='line'>  &lt;/navigation&gt;;</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='as3'><span class='line'><span class="kd">protected</span> <span class="kd">static</span> <span class="kd">const</span> <span class="n">NAVIGATION</span><span class="p">:</span><span class="kt">XML</span> <span class="o">=</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="n">navigation</span> <span class="n">id</span><span class="o">=</span><span class="s2">&quot;nav&quot;</span> <span class="n">colour</span><span class="o">=</span><span class="s2">&quot;#C100000&quot;</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Home&quot;</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="o">{</span><span class="n">LIST</span><span class="o">}</span>
+</span><span class='line'>  <span class="o">{</span><span class="n">Page0</span><span class="o">.</span><span class="na">LAYOUT</span><span class="o">}</span>
+</span><span class='line'>  <span class="o">{</span><span class="n">Page1</span><span class="o">.</span><span class="na">LAYOUT</span><span class="o">}</span>
+</span><span class='line'>  <span class="o">&lt;/</span><span class="n">navigation</span><span class="o">&gt;;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>Here <code>Page0</code> and <code>Page1</code> are custom component classes. This doesn&rsquo;t broke the mentioned principle of static XML markup.</p>
@@ -320,18 +327,19 @@
 
 <p>With &ldquo;static&rdquo; technique the parent control is responsible for initialization of custom control:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// Create the main UI or "Landing Page"
-</span><span class='line'>UI.create(this, NAVIGATION);
+</pre></td><td class='code'><pre><code class='as3'><span class='line'><span class="c1">// Create the main UI or &quot;Landing Page&quot;</span>
+</span><span class='line'><span class="n">UI</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">NAVIGATION</span><span class="o">);</span>
 </span><span class='line'>
-</span><span class='line'>// Initialize "views"
-</span><span class='line'>Page0.initialize();
-</span><span class='line'>Page1.initialize();</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'><span class="c1">// Initialize &quot;views&quot;</span>
+</span><span class='line'><span class="n">Page0</span><span class="o">.</span><span class="na">initialize</span><span class="o">();</span>
+</span><span class='line'><span class="n">Page1</span><span class="o">.</span><span class="na">initialize</span><span class="o">();</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>So whenever we want to use such control, it is necessary to reference it at least twice: in XML markup and initialization code. Such approach could enforce mistakes, when we want to replace <code>Page1</code> with, for example, <code>Page3</code> &ndash; remember to change code in two places.</p>
@@ -344,7 +352,7 @@
 
 <p>Bad <a href="news:">news:</a> by default you cannot bind properties of user-defined class within UIList custom renderer. List recognizes only dynamically added properties, not class-defined. So if you have defined some properties in your model class and list renderer references them &ndash; it will no be bound. The reason of such behavior is that implementation of of UIList uses &ldquo;<a href="http://help.adobe.com/en_US/ActionScript/3.0_ProgrammingAS3/WS5b3ccc516d4fbf351e63e3d118a9b90204-7fcf.html#WS5b3ccc516d4fbf351e63e3d118a9b90204-7f5b">for..in</a> to iterate through model.</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -383,57 +391,59 @@
 <span class='line-number'>37</span>
 <span class='line-number'>38</span>
 <span class='line-number'>39</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>public class GalleryImage
-</span><span class='line'>{
-</span><span class='line'>  protected var _URL:String;
-</span><span class='line'>  protected var _thumbURL:String;
-</span><span class='line'>  protected var _selected:Boolean;
+</pre></td><td class='code'><pre><code class='as3'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="n">GalleryImage</span>
+</span><span class='line'><span class="o">{</span>
+</span><span class='line'>  <span class="kd">protected</span> <span class="kd">var</span> <span class="n">_URL</span><span class="p">:</span><span class="kt">String</span><span class="o">;</span>
+</span><span class='line'>  <span class="kd">protected</span> <span class="kd">var</span> <span class="n">_thumbURL</span><span class="p">:</span><span class="kt">String</span><span class="o">;</span>
+</span><span class='line'>  <span class="kd">protected</span> <span class="kd">var</span> <span class="n">_selected</span><span class="p">:</span><span class="kt">Boolean</span><span class="o">;</span>
 </span><span class='line'>
-</span><span class='line'>  public static const EMPTY: GalleryImage = new GalleryImage();
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">static</span> <span class="kd">const</span> <span class="n">EMPTY</span><span class="p">:</span> <span class="kt">GalleryImage</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">GalleryImage</span><span class="o">();</span>
 </span><span class='line'>  
-</span><span class='line'>  public function get selected():Boolean
-</span><span class='line'>  {
-</span><span class='line'>      return _selected;
-</span><span class='line'>  }
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">function</span> <span class="kd">get</span> <span class="n">selected</span><span class="o">():</span><span class="n">Boolean</span>
+</span><span class='line'>  <span class="o">{</span>
+</span><span class='line'>      <span class="k">return</span> <span class="n">_selected</span><span class="o">;</span>
+</span><span class='line'>  <span class="o">}</span>
 </span><span class='line'>
-</span><span class='line'>  public function set selected(v:Boolean):void
-</span><span class='line'>  {
-</span><span class='line'>      _selected = v;
-</span><span class='line'>  }
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">function</span> <span class="kd">set</span> <span class="n">selected</span><span class="o">(</span><span class="n">v</span><span class="o">:</span><span class="n">Boolean</span><span class="o">):</span><span class="kc">void</span>
+</span><span class='line'>  <span class="o">{</span>
+</span><span class='line'>      <span class="n">_selected</span> <span class="o">=</span> <span class="n">v</span><span class="o">;</span>
+</span><span class='line'>  <span class="o">}</span>
 </span><span class='line'>
-</span><span class='line'>  public function get thumbURL():String
-</span><span class='line'>  {
-</span><span class='line'>      return _thumbURL;
-</span><span class='line'>  }
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">function</span> <span class="kd">get</span> <span class="n">thumbURL</span><span class="o">():</span><span class="n">String</span>
+</span><span class='line'>  <span class="o">{</span>
+</span><span class='line'>      <span class="k">return</span> <span class="n">_thumbURL</span><span class="o">;</span>
+</span><span class='line'>  <span class="o">}</span>
 </span><span class='line'>
-</span><span class='line'>  public function set thumbURL(v:String):void
-</span><span class='line'>  {
-</span><span class='line'>      _thumbURL = v;
-</span><span class='line'>  }
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">function</span> <span class="kd">set</span> <span class="n">thumbURL</span><span class="o">(</span><span class="n">v</span><span class="o">:</span><span class="n">String</span><span class="o">):</span><span class="kc">void</span>
+</span><span class='line'>  <span class="o">{</span>
+</span><span class='line'>      <span class="n">_thumbURL</span> <span class="o">=</span> <span class="n">v</span><span class="o">;</span>
+</span><span class='line'>  <span class="o">}</span>
 </span><span class='line'>
-</span><span class='line'>  public function get URL():String
-</span><span class='line'>  {
-</span><span class='line'>      return _URL;
-</span><span class='line'>  }
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">function</span> <span class="kd">get</span> <span class="n">URL</span><span class="o">():</span><span class="n">String</span>
+</span><span class='line'>  <span class="o">{</span>
+</span><span class='line'>      <span class="k">return</span> <span class="n">_URL</span><span class="o">;</span>
+</span><span class='line'>  <span class="o">}</span>
 </span><span class='line'>
-</span><span class='line'>  public function set URL(v:String):void
-</span><span class='line'>  {
-</span><span class='line'>      _URL = v;
-</span><span class='line'>  }
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">function</span> <span class="kd">set</span> <span class="n">URL</span><span class="o">(</span><span class="n">v</span><span class="o">:</span><span class="n">String</span><span class="o">):</span><span class="kc">void</span>
+</span><span class='line'>  <span class="o">{</span>
+</span><span class='line'>      <span class="n">_URL</span> <span class="o">=</span> <span class="n">v</span><span class="o">;</span>
+</span><span class='line'>  <span class="o">}</span>
 </span><span class='line'>
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>List with custom renderer:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;list&gt;
-</span><span class='line'>  &lt;label id="URL" /&gt;
-</span><span class='line'>  &lt;imageLoader id="thubmUrl" /&gt;
-</span><span class='line'>&lt;/list&gt;</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='as3'><span class='line'><span class="o">&lt;</span><span class="n">list</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="n">label</span> <span class="n">id</span><span class="o">=</span><span class="s2">&quot;URL&quot;</span> <span class="o">/&gt;</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="n">imageLoader</span> <span class="n">id</span><span class="o">=</span><span class="s2">&quot;thubmUrl&quot;</span> <span class="o">/&gt;</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">list</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>I have two solutions for this issue:</p>
@@ -444,7 +454,7 @@
 </ol>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -469,31 +479,32 @@
 <span class='line-number'>23</span>
 <span class='line-number'>24</span>
 <span class='line-number'>25</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>protected static function imageListToArray(list: IList): Array
-</span><span class='line'>{
-</span><span class='line'>  var images: Array = new Array();
+</pre></td><td class='code'><pre><code class='as3'><span class='line'><span class="kd">protected</span> <span class="kd">static</span> <span class="kd">function </span><span class="nf">imageListToArray</span><span class="o">(</span><span class="n">list</span><span class="o">:</span> <span class="kt">IList</span><span class="o">):</span> <span class="kt">Array</span>
+</span><span class='line'><span class="o">{</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="n">images</span><span class="p">:</span> <span class="kt">Array</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">Array</span><span class="o">();</span>
 </span><span class='line'>  
-</span><span class='line'>  for (var i:int = 0; i &lt; list.length; ++i )
-</span><span class='line'>  {
-</span><span class='line'>      var image: GalleryImage = GalleryImage(list[i]);
-</span><span class='line'>      images.push(
-</span><span class='line'>      {
-</span><span class='line'>          URL: image.URL,
-</span><span class='line'>          thumbURL: image.thumbURL,
-</span><span class='line'>          selected: image.selected
-</span><span class='line'>      });
-</span><span class='line'>  }
+</span><span class='line'>  <span class="k">for</span> <span class="o">(</span><span class="kd">var</span> <span class="n">i</span><span class="p">:</span><span class="kt">int</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">list</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="o">++</span><span class="n">i</span> <span class="o">)</span>
+</span><span class='line'>  <span class="o">{</span>
+</span><span class='line'>      <span class="kd">var</span> <span class="n">image</span><span class="p">:</span> <span class="kt">GalleryImage</span> <span class="o">=</span> <span class="n">GalleryImage</span><span class="o">(</span><span class="n">list</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
+</span><span class='line'>      <span class="n">images</span><span class="o">.</span><span class="na">push</span><span class="o">(</span>
+</span><span class='line'>      <span class="o">{</span>
+</span><span class='line'>          <span class="n">URL</span><span class="o">:</span> <span class="n">image</span><span class="o">.</span><span class="na">URL</span><span class="o">,</span>
+</span><span class='line'>          <span class="n">thumbURL</span><span class="o">:</span> <span class="n">image</span><span class="o">.</span><span class="na">thumbURL</span><span class="o">,</span>
+</span><span class='line'>          <span class="n">selected</span><span class="o">:</span> <span class="n">image</span><span class="o">.</span><span class="na">selected</span>
+</span><span class='line'>      <span class="o">});</span>
+</span><span class='line'>  <span class="o">}</span>
 </span><span class='line'>  
-</span><span class='line'>  return images;
-</span><span class='line'>}
+</span><span class='line'>  <span class="k">return</span> <span class="n">images</span><span class="o">;</span>
+</span><span class='line'><span class="o">}</span>
 </span><span class='line'>
-</span><span class='line'>// ... some code ...
+</span><span class='line'><span class="c1">// ... some code ...</span>
 </span><span class='line'>
-</span><span class='line'>public function set dataProvider(value:IList):void 
-</span><span class='line'>{
-</span><span class='line'>  // UIList doesn't recognize user-defined properties
-</span><span class='line'>  _dgThumbnails.data = imageListToArray(value);
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'><span class="kd">public</span> <span class="kd">function</span> <span class="kd">set</span> <span class="n">dataProvider</span><span class="o">(</span><span class="n">value</span><span class="o">:</span><span class="n">IList</span><span class="o">):</span><span class="kc">void</span>
+</span><span class='line'><span class="o">{</span>
+</span><span class='line'>  <span class="c1">// UIList doesn&#39;t recognize user-defined properties</span>
+</span><span class='line'>  <span class="n">_dgThumbnails</span><span class="o">.</span><span class="na">data</span> <span class="o">=</span> <span class="n">imageListToArray</span><span class="o">(</span><span class="n">value</span><span class="o">);</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>First solution forces you to reimplement internals of MadComponents, which is not great in the case internals will be modified later. Second solution depends only on public interface of <code>UIList</code>, but requires twice (roughly) as much memory for model objects. So it&rsquo;s your decision, which solution to choose.</p>
@@ -502,26 +513,27 @@
 
 <p>This problem appears when you want access view&rsquo;s children within <code>onRegister()</code> function of view&rsquo;s mediator. But why? It happens because the mediator is created right after view&rsquo;s <code>ADDED_TO_STAGE</code> event is fired. However MadComponents contaiers are added to it&rsquo;s parent display list in the first line of it&rsquo;s constructor, and after that children creation takes place &ndash; so mediator is created between those two phases. I&rsquo;ve met this problem in <a href="https://bitbucket.org/ajukraine/madcomponents-robotlegs-flickrgallerynometa/src/tip/src/org/robotlegs/demos/imagegallery/views/mediators/GalleryLabelMediator.as">GalleryLabelMediator</a>.</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>override public function onRegister():void
-</span><span class='line'>{
-</span><span class='line'>  addContextListener(GallerySearchEvent.SEARCH, handleSearch );
+</pre></td><td class='code'><pre><code class='as3'><span class='line'><span class="kd">override</span> <span class="kd">public</span> <span class="kd">function </span><span class="nf">onRegister</span><span class="o">():</span><span class="kt">void</span>
+</span><span class='line'><span class="o">{</span>
+</span><span class='line'>  <span class="n">addContextListener</span><span class="o">(</span><span class="n">GallerySearchEvent</span><span class="o">.</span><span class="na">SEARCH</span><span class="o">,</span> <span class="n">handleSearch</span> <span class="o">);</span>
 </span><span class='line'>
-</span><span class='line'>  view.text = "interestingness";
-</span><span class='line'>  view.setVisibility(service.searchAvailable);
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>  <span class="n">view</span><span class="o">.</span><span class="na">text</span> <span class="o">=</span> <span class="s2">&quot;interestingness&quot;</span><span class="o">;</span>
+</span><span class='line'>  <span class="n">view</span><span class="o">.</span><span class="na">setVisibility</span><span class="o">(</span><span class="n">service</span><span class="o">.</span><span class="na">searchAvailable</span><span class="o">);</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>Here mediator tries to access view&rsquo;s label text, but it doesn&rsquo;t exist at the time of <code>onRegister()</code> call.
 In order to handle this, you should consider to perform initialization step of view inside view&rsquo;s constructor using data, passed from mediator.</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -577,62 +589,63 @@ In order to handle this, you should consider to perform initialization step of v
 <span class='line-number'>54</span>
 <span class='line-number'>55</span>
 <span class='line-number'>56</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>package org.robotlegs.demos.imagegallery.views.components.mad 
-</span><span class='line'>{
-</span><span class='line'>  import com.danielfreeman.extendedMadness.UIPanel;
-</span><span class='line'>  import com.danielfreeman.madcomponents.Attributes;
-</span><span class='line'>  import com.danielfreeman.madcomponents.UI;
-</span><span class='line'>  import com.danielfreeman.madcomponents.UILabel;
-</span><span class='line'>  import flash.display.Sprite;
-</span><span class='line'>  import flash.events.Event;
-</span><span class='line'>  import flash.text.TextFormat;
-</span><span class='line'>  import flash.text.TextFormatAlign;
-</span><span class='line'>  import org.robotlegs.demos.imagegallery.views.components.api.IGalleryLabel;
+</pre></td><td class='code'><pre><code class='as3'><span class='line'><span class="k">package</span> <span class="nn">org.robotlegs.demos.imagegallery.views.components.mad</span>
+</span><span class='line'><span class="o">{</span>
+</span><span class='line'>  <span class="k">import</span> <span class="nn">com.danielfreeman.extendedMadness.UIPanel</span><span class="o">;</span>
+</span><span class='line'>  <span class="k">import</span> <span class="nn">com.danielfreeman.madcomponents.Attributes</span><span class="o">;</span>
+</span><span class='line'>  <span class="k">import</span> <span class="nn">com.danielfreeman.madcomponents.UI</span><span class="o">;</span>
+</span><span class='line'>  <span class="k">import</span> <span class="nn">com.danielfreeman.madcomponents.UILabel</span><span class="o">;</span>
+</span><span class='line'>  <span class="k">import</span> <span class="nn">flash.display.Sprite</span><span class="o">;</span>
+</span><span class='line'>  <span class="k">import</span> <span class="nn">flash.events.Event</span><span class="o">;</span>
+</span><span class='line'>  <span class="k">import</span> <span class="nn">flash.text.TextFormat</span><span class="o">;</span>
+</span><span class='line'>  <span class="k">import</span> <span class="nn">flash.text.TextFormatAlign</span><span class="o">;</span>
+</span><span class='line'>  <span class="k">import</span> <span class="nn">org.robotlegs.demos.imagegallery.views.components.api.IGalleryLabel</span><span class="o">;</span>
 </span><span class='line'>  
-</span><span class='line'>  /**
-</span><span class='line'>   * @author Bohdan Makohin
-</span><span class='line'>   */
-</span><span class='line'>  public class GalleryLabel extends UIPanel implements IGalleryLabel 
-</span><span class='line'>  {
-</span><span class='line'>      private var _text: String;
-</span><span class='line'>      private var _label: UILabel;
+</span><span class='line'>  <span class="cm">/**</span>
+</span><span class='line'><span class="cm">  * @author Bohdan Makohin</span>
+</span><span class='line'><span class="cm">  */</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">class</span> <span class="n">GalleryLabel</span> <span class="kd">extends</span> <span class="n">UIPanel</span> <span class="kd">implements</span> <span class="n">IGalleryLabel</span>
+</span><span class='line'>  <span class="o">{</span>
+</span><span class='line'>      <span class="kd">private</span> <span class="kd">var</span> <span class="n">_text</span><span class="p">:</span> <span class="kt">String</span><span class="o">;</span>
+</span><span class='line'>      <span class="kd">private</span> <span class="kd">var</span> <span class="n">_label</span><span class="p">:</span> <span class="kt">UILabel</span><span class="o">;</span>
 </span><span class='line'>      
-</span><span class='line'>      protected const LAYOUT: XML =
-</span><span class='line'>          &lt;vertical&gt;
-</span><span class='line'>              &lt;label id="label" alignH="right"&gt;
-</span><span class='line'>                  &lt;font color="#ffffff" size="12"&gt;&lt;b&gt;&lt;/b&gt;&lt;/font&gt;
-</span><span class='line'>              &lt;/label&gt;
-</span><span class='line'>          &lt;/vertical&gt;;
+</span><span class='line'>      <span class="kd">protected</span> <span class="kd">const</span> <span class="n">LAYOUT</span><span class="p">:</span> <span class="kt">XML</span> <span class="o">=</span>
+</span><span class='line'>          <span class="o">&lt;</span><span class="n">vertical</span><span class="o">&gt;</span>
+</span><span class='line'>              <span class="o">&lt;</span><span class="n">label</span> <span class="n">id</span><span class="o">=</span><span class="s2">&quot;label&quot;</span> <span class="n">alignH</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="o">&gt;</span>
+</span><span class='line'>                  <span class="o">&lt;</span><span class="n">font</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#ffffff&quot;</span> <span class="n">size</span><span class="o">=</span><span class="s2">&quot;12&quot;</span><span class="o">&gt;&lt;</span><span class="n">b</span><span class="o">&gt;&lt;/</span><span class="n">b</span><span class="o">&gt;&lt;/</span><span class="n">font</span><span class="o">&gt;</span>
+</span><span class='line'>              <span class="o">&lt;/</span><span class="n">label</span><span class="o">&gt;</span>
+</span><span class='line'>          <span class="o">&lt;/</span><span class="n">vertical</span><span class="o">&gt;;</span>
 </span><span class='line'>      
-</span><span class='line'>      public function GalleryLabel(screen:Sprite, xml:XML, attributes:Attributes=null, row:Boolean=false, inGroup:Boolean=false) 
-</span><span class='line'>      {
-</span><span class='line'>          super(screen, LAYOUT, attributes, row, inGroup);
+</span><span class='line'>      <span class="kd">public</span> <span class="kd">function </span><span class="nf">GalleryLabel</span><span class="o">(</span><span class="n">screen</span><span class="o">:</span><span class="kt">Sprite</span><span class="o">,</span> <span class="n">xml</span><span class="o">:</span><span class="kt">XML</span><span class="o">,</span> <span class="n">attributes</span><span class="o">:</span><span class="kt">Attributes</span><span class="o">=</span><span class="kc">null</span><span class="o">,</span> <span class="n">row</span><span class="o">:</span><span class="kt">Boolean</span><span class="o">=</span><span class="kc">false</span><span class="o">,</span> <span class="n">inGroup</span><span class="o">:</span><span class="kt">Boolean</span><span class="o">=</span><span class="kc">false</span><span class="o">)</span>
+</span><span class='line'>      <span class="o">{</span>
+</span><span class='line'>          <span class="kd">super</span><span class="o">(</span><span class="n">screen</span><span class="o">,</span> <span class="n">LAYOUT</span><span class="o">,</span> <span class="n">attributes</span><span class="o">,</span> <span class="n">row</span><span class="o">,</span> <span class="n">inGroup</span><span class="o">);</span>
 </span><span class='line'>          
-</span><span class='line'>          _label = UILabel(findViewById("label"));
-</span><span class='line'>          _label.text = _text;
-</span><span class='line'>      }
+</span><span class='line'>          <span class="n">_label</span> <span class="o">=</span> <span class="n">UILabel</span><span class="o">(</span><span class="n">findViewById</span><span class="o">(</span><span class="s2">&quot;label&quot;</span><span class="o">));</span>
+</span><span class='line'>          <span class="n">_label</span><span class="o">.</span><span class="na">text</span> <span class="o">=</span> <span class="n">_text</span><span class="o">;</span>
+</span><span class='line'>      <span class="o">}</span>
 </span><span class='line'>      
-</span><span class='line'>      public function get text():String 
-</span><span class='line'>      {
-</span><span class='line'>          return _text;
-</span><span class='line'>      }
+</span><span class='line'>      <span class="kd">public</span> <span class="kd">function</span> <span class="kd">get</span> <span class="n">text</span><span class="o">():</span><span class="n">String</span>
+</span><span class='line'>      <span class="o">{</span>
+</span><span class='line'>          <span class="k">return</span> <span class="n">_text</span><span class="o">;</span>
+</span><span class='line'>      <span class="o">}</span>
 </span><span class='line'>      
-</span><span class='line'>      public function set text(value:String):void 
-</span><span class='line'>      {
-</span><span class='line'>          _text = value;
-</span><span class='line'>          if (_label)
-</span><span class='line'>          {
-</span><span class='line'>              _label.text = _text;
-</span><span class='line'>              doLayout();
-</span><span class='line'>          }
-</span><span class='line'>      }
+</span><span class='line'>      <span class="kd">public</span> <span class="kd">function</span> <span class="kd">set</span> <span class="n">text</span><span class="o">(</span><span class="n">value</span><span class="o">:</span><span class="n">String</span><span class="o">):</span><span class="kc">void</span>
+</span><span class='line'>      <span class="o">{</span>
+</span><span class='line'>          <span class="n">_text</span> <span class="o">=</span> <span class="n">value</span><span class="o">;</span>
+</span><span class='line'>          <span class="k">if</span> <span class="o">(</span><span class="n">_label</span><span class="o">)</span>
+</span><span class='line'>          <span class="o">{</span>
+</span><span class='line'>              <span class="n">_label</span><span class="o">.</span><span class="na">text</span> <span class="o">=</span> <span class="n">_text</span><span class="o">;</span>
+</span><span class='line'>              <span class="n">doLayout</span><span class="o">();</span>
+</span><span class='line'>          <span class="o">}</span>
+</span><span class='line'>      <span class="o">}</span>
 </span><span class='line'>      
-</span><span class='line'>      public function setVisibility(visibility :Boolean):void 
-</span><span class='line'>      {
-</span><span class='line'>          this.visible = this._inGroup = visibility ;
-</span><span class='line'>      }
-</span><span class='line'>  }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>      <span class="kd">public</span> <span class="kd">function </span><span class="nf">setVisibility</span><span class="o">(</span><span class="n">visibility</span> <span class="o">:</span><span class="kt">Boolean</span><span class="o">):</span><span class="kt">void</span>
+</span><span class='line'>      <span class="o">{</span>
+</span><span class='line'>          <span class="k">this</span><span class="o">.</span><span class="na">visible</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">_inGroup</span> <span class="o">=</span> <span class="n">visibility</span> <span class="o">;</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h2>Instead of conclusions</h2>
