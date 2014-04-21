@@ -9,7 +9,7 @@
   <meta name="author" content="Bohdan Makohin">
 
   
-  <meta name="description" content="Blog Archives Recent Posts GitHub Repos Status updating&#8230; @ajukraine on GitHub $(document).ready(function(){ if (!window.jXHR){ var jxhr = &hellip;">
+  <meta name="description" content="Introduction During last days I was playing with amazing AS3 library MadComponents &ndash; lightweight open-source UI framework for Flash. This &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://ajukraine.github.io">
+  <link rel="canonical" href="http://ajukraine.com">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Bohdan Makohin" type="application/atom+xml">
@@ -50,7 +50,7 @@
   
 <form action="https://www.google.com/search" method="get">
   <fieldset role="search">
-    <input type="hidden" name="q" value="site:ajukraine.github.io" />
+    <input type="hidden" name="q" value="site:ajukraine.com" />
     <input class="search" type="text" name="q" results="0" placeholder="Search"/>
   </fieldset>
 </form>
@@ -66,6 +66,601 @@
       <div class="blog-index">
   
   
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/09/15/madcomponents-with-robotlegs-flickrgallery/">MadComponents With RobotLegs: FlickrGallery</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-15T21:58:00+03:00" pubdate data-updated="true">Sep 15<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p style="text-align:center;"><img src="/images/madrobot.png" height="252" width="157" alt="MadRobot" /></p>
+
+<h2>Introduction</h2>
+
+<p>During last days I was playing with amazing AS3 library <a href="http://code.google.com/p/mad-components/">MadComponents</a> &ndash; lightweight open-source UI framework for Flash. This library is maintained by <a href="http://madskool.wordpress.com/about-2/">Daniel Freeman</a> and he claims that &ldquo;MadComponents&rdquo; targets mobile apps via Adobe AIR. And I could say that the library proves that point: it&rsquo;s fast and provides ready-to-use components, which fit to mobile UI, out of the box. One of the great features is a declarative UI markup: just feed framework with correct XML and it produces components&#8217; tree that automatically layouts depending on device screen dimensions.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>protected const LAYOUT: XML =
+</span><span class='line'>  &lt;horizontal alignH="right"&gt;
+</span><span class='line'>      &lt;input id="searchTermInput" width="150" /&gt;
+</span><span class='line'>      &lt;button id="submitSearchButton"&gt;search&lt;/button&gt;
+</span><span class='line'>  &lt;/horizontal&gt;;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I&rsquo;ve created prototype for my commercial project very quickly utilizing MadComponents. Since prototype phase had satisfied my needs I&rsquo;ve decided to introduce the library with my favourite ActionScript MVC framework <a href="http://www.robotlegs.org/">RobotLegs</a>.</p>
+
+<h2>Modifying the architecture of existing Flex Robotlegs-based FlickrGallery</h2>
+
+<p>In this article I will share with you my experience of replacing Flex controls with corresponding MadCompontets in Joel Hooks&#8217; <a href="https://github.com/joelhooks/robotlegs-examples-FlickrGalleryNoMeta">robotlegs-examples-FlickrGalleryNoMeta</a>. You can read more about &ldquo;nometa&rdquo; approach of using RobotLegs in the Joel&rsquo;s <a href="http://joelhooks.com/2010/06/16/do-you-need-metadata-as3-robotlegs/">&ldquo;Do we really need THAT much metadata in AS3? Not with Robotlegs…&rdquo;</a>.</p>
+
+<p><em>Note. This example app is designed for desktop, not mobile, hence that it&rsquo;s just general purpose article, not mobile tutorial for MadComponents and Robotlegs.</em></p>
+
+<p>First of all let&rsquo;s describe structure of original FlickrGalleyNoMeta to decide what exactly should be reimplemented with MadComponents.</p>
+
+<p style="text-align:center;"><img src="/images/FlickrGallery-package-diagram.png" alt="Package diagrame before" /></p>
+
+<p>In the scheme [1] there are shown package diagram of the app. At the top of root package we have two classes: ImageGalleryContext and RobotLegsFlickrGallery (context view &ndash; in the terms of RobotLegs). With green background I&rsquo;ve marked classes that are Flex-based: context view and UI components. But as we see, &ldquo;mediators&rdquo; depends on Flex components. So first of all, let&rsquo;s create abstrct interfaces which expose contract for interaction with UI: new package &ldquo;api&rdquo; inside &ldquo;components&rdquo;. Then move Flex based components to &ldquo;flex&rdquo; subpackage and create &ldquo;mad&rdquo; package for MadComponents UI. Also I need to have new Mad-based main view and context (which maps mediators to Mad-components).</p>
+
+<p style="text-align:center;"><img src="/images/FlickrGallery-package-diagram-after-refactor.png" alt="Package diagrame after" /></p>
+
+<p>I&rsquo;ve extracted base context class <a href="https://bitbucket.org/ajukraine/madcomponents-robotlegs-flickrgallerynometa/src/tip/src/org/robotlegs/demos/imagegallery/BaseGalleryContext.as">BaseImageGalleryContext</a> and derived two new ones for Flex and Mad. Now our application structure is agnostic to concrete UI library. If we want to compile Flex version just pick <code>MadRobotlegsFlickrGallery</code> as swf main class, or for MadComponents version &ndash; <code>MadRobotlegsFlickrGallery</code>. And this is real power of MVC &ndash; easy replacing of layers implementation: so mediators depends only on UI interfaces.</p>
+
+<p>Here how I map mediators to mad components.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>import org.robotlegs.demos.imagegallery.views.components.mad.*;
+</span><span class='line'>import org.robotlegs.demos.imagegallery.views.components.api.*;
+</span><span class='line'>
+</span><span class='line'>// ... more code ...
+</span><span class='line'>
+</span><span class='line'>override public function startup():void
+</span><span class='line'>{
+</span><span class='line'>  //map view
+</span><span class='line'>  mediatorMap.mapView(GalleryView, GalleryViewMediator, IGalleryView);
+</span><span class='line'>  mediatorMap.mapView(GallerySearch, GallerySearchMediator, IGallerySearch);
+</span><span class='line'>  mediatorMap.mapView(GalleryLabel, GalleryLabelMediator, IGalleryLabel);
+</span><span class='line'>  
+</span><span class='line'>  super.startup();
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>// ... more code ...</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The third parameter of <code>mapView</code> specifies the type that mediator depends on. For example, <code>GalleryViewMediator</code> depends on <code>IGalleryView</code> type. The injector will automatically pass the view into constructor.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public class GalleryViewMediator extends Mediator
+</span><span class='line'>{
+</span><span class='line'>  private var view:IGalleryView;
+</span><span class='line'>
+</span><span class='line'>  public function GalleryViewMediator(galleryView:IGalleryView)
+</span><span class='line'>  {
+</span><span class='line'>      view = galleryView;
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>  // ... more code ...
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Implementing UI interfaces with MadComponents</h2>
+
+<p>Ok, application&rsquo;s backbone is constructed correctly, but it misses the main part &ndash; actual Mad UI! So lets implement root view and view interfaces: <code>IGalleryLabel</code>, <code>IGallerySearch</code>, <code>IGalleryView</code>.</p>
+
+<p>General <a href="https://bitbucket.org/ajukraine/madcomponents-robotlegs-flickrgallerynometa/src/tip/src/MadRobotlegsFlickrGallery.as">layout</a> consists of header, search prompt and gallery view:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>protected const LAYOUT:XML =
+</span><span class='line'>  &lt;vertical xmlns:mad="org.robotlegs.demos.imagegallery.views.mad"
+</span><span class='line'>      gapV="0" gapH="0" paddingV="0" border="false"&gt;
+</span><span class='line'>      &lt;mad:GalleryHeader /&gt;
+</span><span class='line'>      &lt;mad:GallerySearch id="search" /&gt;
+</span><span class='line'>      &lt;mad:GalleryView id="gallery" /&gt;
+</span><span class='line'>  &lt;/vertical&gt;;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To split layout into seperate files, I&rsquo;ve utilized the <a href="http://madskool.wordpress.com/2012/01/12/extending-madcomponents/">UI.extend() technique</a>, where custom container componet derives from <code>UIPanel</code> (class from ExtendedMadnessLib). In order to recognize new components by framework, we should put &ldquo;XML tag name &lt;=> Class&rdquo; mapping before whole UI creation:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>private function onAddedToStage(e:Event):void
+</span><span class='line'>{
+</span><span class='line'>  UI.extend(
+</span><span class='line'>      ["GalleryHeader", "GallerySearch", "GalleryView", "GalleryLabel"],
+</span><span class='line'>      [GalleryHeader, GallerySearch, GalleryView, GalleryLabel]);
+</span><span class='line'>      
+</span><span class='line'>  UI.PADDING = 0;
+</span><span class='line'>  UIe.create(this, LAYOUT);
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Let&rsquo;s look closer at the simplest component <a href="https://bitbucket.org/ajukraine/madcomponents-robotlegs-flickrgallerynometa/src/tip/src/org/robotlegs/demos/imagegallery/views/components/mad/GalleryHeader.as">GalleryHeader</a>. There is no surprising thing in it, except the pattern, which I use for every custom container component. The class&#8217; constructor takes same range of parametres as parent class and passes all given arguments into parent&rsquo;s constructor, except <code>xml</code> parameter. Instead of external XML file, I pass internal <code>LAYOUT</code> constant.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>package org.robotlegs.demos.imagegallery.views.components.mad 
+</span><span class='line'>{
+</span><span class='line'>  import com.danielfreeman.extendedMadness.UIPanel;
+</span><span class='line'>  import com.danielfreeman.madcomponents.Attributes;
+</span><span class='line'>  import flash.display.Sprite;
+</span><span class='line'>  import flash.utils.getQualifiedClassName;
+</span><span class='line'>  
+</span><span class='line'>  /**
+</span><span class='line'>   * @author Bohdan Makohin
+</span><span class='line'>   */
+</span><span class='line'>  public class GalleryHeader extends UIPanel
+</span><span class='line'>  {
+</span><span class='line'>      protected const LAYOUT: XML =
+</span><span class='line'>          &lt;horizontal&gt;
+</span><span class='line'>              &lt;image&gt;{getQualifiedClassName(Assets.RobotLegsLogo)}&lt;/image&gt;
+</span><span class='line'>              &lt;label id="headerLabel"&gt;&lt;font size="24"&gt;
+</span><span class='line'>                  &lt;b&gt;Robotlegs: Image Gallery Demo&lt;/b&gt;
+</span><span class='line'>              &lt;/font&gt;&lt;/label&gt;
+</span><span class='line'>          &lt;/horizontal&gt;;
+</span><span class='line'>      
+</span><span class='line'>      public function GalleryHeader(screen:Sprite, xml:XML, attributes:Attributes=null, row:Boolean=false, inGroup:Boolean=false) 
+</span><span class='line'>      {
+</span><span class='line'>          super(screen, LAYOUT, attributes, row, inGroup);
+</span><span class='line'>      }
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Described approach allows to reuse such components and encapsulates implementation details, in contrast to <a href="http://caffeineindustries.com/2011/09/as3-madcomponents-tutorial-series-separation-of-concerns/">Michael Martinez&#8217; practice</a>, where separate class hosts publicly accessed static variable with XML. Let&rsquo;s define pros and cons of both methods (for ease of explanation I will call Martinez&#8217; technique &ldquo;static&rdquo; and mine &ndash; &ldquo;extension&rdquo;).</p>
+
+<h3>Pros and cons of &ldquo;static&rdquo; and &ldquo;extension&rdquo; techniques to extending MadComponents</h3>
+
+<p>MadComponents framework has strong documentation on how to compose single layout for whole application, where XML tree is constructed during compile-time. And &ldquo;static&rdquo; technique utilized same scheme:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>protected static const NAVIGATION:XML = 
+</span><span class='line'>  &lt;navigation id="nav" colour="#C100000" title="Home"&gt;
+</span><span class='line'>  {LIST}
+</span><span class='line'>  {Page0.LAYOUT}
+</span><span class='line'>  {Page1.LAYOUT}
+</span><span class='line'>  &lt;/navigation&gt;;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here <code>Page0</code> and <code>Page1</code> are custom component classes. This doesn&rsquo;t broke the mentioned principle of static XML markup.</p>
+
+<p>On the other hand with &ldquo;extension&rdquo; technique we don&rsquo;t have single XML markup for whole application, but many separate XML trees for each custom container component. This approach hides the internals of our component, and therefore reduces tight coherence, which is important characteristic for most software.</p>
+
+<p>With &ldquo;static&rdquo; technique the parent control is responsible for initialization of custom control:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Create the main UI or "Landing Page"
+</span><span class='line'>UI.create(this, NAVIGATION);
+</span><span class='line'>
+</span><span class='line'>// Initialize "views"
+</span><span class='line'>Page0.initialize();
+</span><span class='line'>Page1.initialize();</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So whenever we want to use such control, it is necessary to reference it at least twice: in XML markup and initialization code. Such approach could enforce mistakes, when we want to replace <code>Page1</code> with, for example, <code>Page3</code> &ndash; remember to change code in two places.</p>
+
+<p>Strictly speaking, &ldquo;static&rdquo; approach is just procedural wrapper on XML &ndash; we don&rsquo;t actually do OOP, but have bunch of static methods within class declaration. We can&rsquo;t benefit from instantiating such controls, because everything is located in static context. Hence that is not easy to integrate with MVC &ndash; we should manually instantiate and dispose mediators (Robotlegs), or create dummy Sprite object to be adapter between mediators and custom Mad components.</p>
+
+<p>The &ldquo;extension&rdquo; method gives us possibility to use <code>protected</code> methods and fields of UIPanel (or UIForm); we could override some methods for our needs. But one of the main benefits is that we do OOP &ndash; so it&rsquo;s easy to integrate with MVC, create as many instances of component as we need. Our custom control is self-contained building block (the question is: do you need it to be such?).</p>
+
+<h3>Typed model and UIList&rsquo;s custom renderer</h3>
+
+<p>Bad <a href="news:">news:</a> by default you cannot bind properties of user-defined class within UIList custom renderer. List recognizes only dynamically added properties, not class-defined. So if you have defined some properties in your model class and list renderer references them &ndash; it will no be bound. The reason of such behavior is that implementation of of UIList uses &ldquo;<a href="http://help.adobe.com/en_US/ActionScript/3.0_ProgrammingAS3/WS5b3ccc516d4fbf351e63e3d118a9b90204-7fcf.html#WS5b3ccc516d4fbf351e63e3d118a9b90204-7f5b">for..in</a> to iterate through model.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public class GalleryImage
+</span><span class='line'>{
+</span><span class='line'>  protected var _URL:String;
+</span><span class='line'>  protected var _thumbURL:String;
+</span><span class='line'>  protected var _selected:Boolean;
+</span><span class='line'>
+</span><span class='line'>  public static const EMPTY: GalleryImage = new GalleryImage();
+</span><span class='line'>  
+</span><span class='line'>  public function get selected():Boolean
+</span><span class='line'>  {
+</span><span class='line'>      return _selected;
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>  public function set selected(v:Boolean):void
+</span><span class='line'>  {
+</span><span class='line'>      _selected = v;
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>  public function get thumbURL():String
+</span><span class='line'>  {
+</span><span class='line'>      return _thumbURL;
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>  public function set thumbURL(v:String):void
+</span><span class='line'>  {
+</span><span class='line'>      _thumbURL = v;
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>  public function get URL():String
+</span><span class='line'>  {
+</span><span class='line'>      return _URL;
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>  public function set URL(v:String):void
+</span><span class='line'>  {
+</span><span class='line'>      _URL = v;
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>List with custom renderer:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;list&gt;
+</span><span class='line'>  &lt;label id="URL" /&gt;
+</span><span class='line'>  &lt;imageLoader id="thubmUrl" /&gt;
+</span><span class='line'>&lt;/list&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I have two solutions for this issue:</p>
+
+<ol>
+<li>Create new list class derived from <code>UIList</code> (or <code>UIListHorizontal</code>) and override it&rsquo;s <code>fillInValues</code> method to directly cast model to appropriate class and set the values of properties. Such custom list could take a delegate function, which knows details of model type.</li>
+<li>Create new object with dynamic properties, which corresponds to typed model:</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>protected static function imageListToArray(list: IList): Array
+</span><span class='line'>{
+</span><span class='line'>  var images: Array = new Array();
+</span><span class='line'>  
+</span><span class='line'>  for (var i:int = 0; i &lt; list.length; ++i )
+</span><span class='line'>  {
+</span><span class='line'>      var image: GalleryImage = GalleryImage(list[i]);
+</span><span class='line'>      images.push(
+</span><span class='line'>      {
+</span><span class='line'>          URL: image.URL,
+</span><span class='line'>          thumbURL: image.thumbURL,
+</span><span class='line'>          selected: image.selected
+</span><span class='line'>      });
+</span><span class='line'>  }
+</span><span class='line'>  
+</span><span class='line'>  return images;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>// ... some code ...
+</span><span class='line'>
+</span><span class='line'>public function set dataProvider(value:IList):void 
+</span><span class='line'>{
+</span><span class='line'>  // UIList doesn't recognize user-defined properties
+</span><span class='line'>  _dgThumbnails.data = imageListToArray(value);
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>First solution forces you to reimplement internals of MadComponents, which is not great in the case internals will be modified later. Second solution depends only on public interface of <code>UIList</code>, but requires twice (roughly) as much memory for model objects. So it&rsquo;s your decision, which solution to choose.</p>
+
+<h3>You cannot access children views in Mediator.onRegister()</h3>
+
+<p>This problem appears when you want access view&rsquo;s children within <code>onRegister()</code> function of view&rsquo;s mediator. But why? It happens because the mediator is created right after view&rsquo;s <code>ADDED_TO_STAGE</code> event is fired. However MadComponents contaiers are added to it&rsquo;s parent display list in the first line of it&rsquo;s constructor, and after that children creation takes place &ndash; so mediator is created between those two phases. I&rsquo;ve met this problem in <a href="https://bitbucket.org/ajukraine/madcomponents-robotlegs-flickrgallerynometa/src/tip/src/org/robotlegs/demos/imagegallery/views/mediators/GalleryLabelMediator.as">GalleryLabelMediator</a>.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>override public function onRegister():void
+</span><span class='line'>{
+</span><span class='line'>  addContextListener(GallerySearchEvent.SEARCH, handleSearch );
+</span><span class='line'>
+</span><span class='line'>  view.text = "interestingness";
+</span><span class='line'>  view.setVisibility(service.searchAvailable);
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here mediator tries to access view&rsquo;s label text, but it doesn&rsquo;t exist at the time of <code>onRegister()</code> call.
+In order to handle this, you should consider to perform initialization step of view inside view&rsquo;s constructor using data, passed from mediator.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>package org.robotlegs.demos.imagegallery.views.components.mad 
+</span><span class='line'>{
+</span><span class='line'>  import com.danielfreeman.extendedMadness.UIPanel;
+</span><span class='line'>  import com.danielfreeman.madcomponents.Attributes;
+</span><span class='line'>  import com.danielfreeman.madcomponents.UI;
+</span><span class='line'>  import com.danielfreeman.madcomponents.UILabel;
+</span><span class='line'>  import flash.display.Sprite;
+</span><span class='line'>  import flash.events.Event;
+</span><span class='line'>  import flash.text.TextFormat;
+</span><span class='line'>  import flash.text.TextFormatAlign;
+</span><span class='line'>  import org.robotlegs.demos.imagegallery.views.components.api.IGalleryLabel;
+</span><span class='line'>  
+</span><span class='line'>  /**
+</span><span class='line'>   * @author Bohdan Makohin
+</span><span class='line'>   */
+</span><span class='line'>  public class GalleryLabel extends UIPanel implements IGalleryLabel 
+</span><span class='line'>  {
+</span><span class='line'>      private var _text: String;
+</span><span class='line'>      private var _label: UILabel;
+</span><span class='line'>      
+</span><span class='line'>      protected const LAYOUT: XML =
+</span><span class='line'>          &lt;vertical&gt;
+</span><span class='line'>              &lt;label id="label" alignH="right"&gt;
+</span><span class='line'>                  &lt;font color="#ffffff" size="12"&gt;&lt;b&gt;&lt;/b&gt;&lt;/font&gt;
+</span><span class='line'>              &lt;/label&gt;
+</span><span class='line'>          &lt;/vertical&gt;;
+</span><span class='line'>      
+</span><span class='line'>      public function GalleryLabel(screen:Sprite, xml:XML, attributes:Attributes=null, row:Boolean=false, inGroup:Boolean=false) 
+</span><span class='line'>      {
+</span><span class='line'>          super(screen, LAYOUT, attributes, row, inGroup);
+</span><span class='line'>          
+</span><span class='line'>          _label = UILabel(findViewById("label"));
+</span><span class='line'>          _label.text = _text;
+</span><span class='line'>      }
+</span><span class='line'>      
+</span><span class='line'>      public function get text():String 
+</span><span class='line'>      {
+</span><span class='line'>          return _text;
+</span><span class='line'>      }
+</span><span class='line'>      
+</span><span class='line'>      public function set text(value:String):void 
+</span><span class='line'>      {
+</span><span class='line'>          _text = value;
+</span><span class='line'>          if (_label)
+</span><span class='line'>          {
+</span><span class='line'>              _label.text = _text;
+</span><span class='line'>              doLayout();
+</span><span class='line'>          }
+</span><span class='line'>      }
+</span><span class='line'>      
+</span><span class='line'>      public function setVisibility(visibility :Boolean):void 
+</span><span class='line'>      {
+</span><span class='line'>          this.visible = this._inGroup = visibility ;
+</span><span class='line'>      }
+</span><span class='line'>  }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Instead of conclusions</h2>
+
+<h3>Compile and try</h3>
+
+<p>&ldquo;Madcomponents-robotlegs-FlickrGalleryNoMeta&rdquo; project is accessible at <a href="https://bitbucket.org/ajukraine/madcomponents-robotlegs-flickrgallerynometa/overview">BitBucket mercurial repository</a>. You could clone the repo or download <a href="https://bitbucket.org/ajukraine/madcomponents-robotlegs-flickrgallerynometa/get/tip.zip">archive with sources</a>. If you want to compile project by yourself, you may use FlashDevelop&rsquo;s project file. For those, who want just to play with application, I&rsquo;ve uploaded the <a href="https://bitbucket.org/ajukraine/madcomponents-robotlegs-flickrgallerynometa/downloads/madcomponentsrobotlegsFlickrGalleryNoMeta.swf">madcomponentsrobotlegsFlickrGalleryNoMeta.swf</a> file, built with AIR 3.4. It could be opened in latest flash player (in order to activate layout, resize application window a bit after opening  the player).</p>
+
+<h3>I was lazy</h3>
+
+<p>I was lazy to achieve same look-and-feel as in original app. Therefore I&rsquo;ve omitted to implement nice tweening effect for image switching &ndash; just utilized standard <code>UIImageLoader</code> component. Besides that I had hard time with skinning thumbnails list (<code>UIListHorizontal</code>) at the bottom, so it doesn&rsquo;t have background and proper selection illumination.</p>
+
+<h3>Thoughts</h3>
+
+<p>It was my first try to integrate RobotLegs with MadComponents. And I liked it. Despite MadComponents has some minor drawbacks (lack of data binding, inflexible component lifetime) it stands alone in the area of fast, lightweight and comprehensive UI frameworks for mobile via Adobe AIR. As far as I know, Daniel Freeman is going to release new major version of the library, which will take advantage of Stage3D and direct rendering mode.</p>
+
+<h3>Summing up</h3>
+
+<p>If you was doubt about using RobotLegs with MadComponents, I&rsquo;d rather you to hurry up and evaluate this post in terms of your requirements. But if you prefer stay away, then you should know that I&rsquo;m going to prepare new article with more in-depth dive into mobile development with MadComponents and RobotLegs.</p>
+
+<p style="text-align:center;"><img src="/images/mad-flickrgallery-screenshot.jpg" alt="Scrrenshot of app" /></p>
+</div>
+  
+  
+
+
+    </article>
+  
   <div class="pagination">
     
     <a href="/blog/archives">Blog Archives</a>
@@ -77,6 +672,10 @@
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/09/15/madcomponents-with-robotlegs-flickrgallery/">MadComponents With RobotLegs: FlickrGallery</a>
+      </li>
     
   </ul>
 </section>

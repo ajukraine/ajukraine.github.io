@@ -1,24 +1,97 @@
-<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Bohdan Makohin]]></title>
-  <link href="http://ajukraine.com/atom.xml" rel="self"/>
-  <link href="http://ajukraine.com/"/>
-  <updated>2014-04-21T22:23:36+03:00</updated>
-  <id>http://ajukraine.com/</id>
-  <author>
-    <name><![CDATA[Bohdan Makohin]]></name>
-    
-  </author>
-  <generator uri="http://octopress.org/">Octopress</generator>
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>MadComponents With RobotLegs: FlickrGallery - Bohdan Makohin</title>
+  <meta name="author" content="Bohdan Makohin">
 
   
-  <entry>
-    <title type="html"><![CDATA[MadComponents With RobotLegs: FlickrGallery]]></title>
-    <link href="http://ajukraine.com/blog/2012/09/15/madcomponents-with-robotlegs-flickrgallery/"/>
-    <updated>2012-09-15T21:58:00+03:00</updated>
-    <id>http://ajukraine.com/blog/2012/09/15/madcomponents-with-robotlegs-flickrgallery</id>
-    <content type="html"><![CDATA[<p style="text-align:center;"><img src="http://ajukraine.com/images/madrobot.png" height="252" width="157" alt="MadRobot" /></p>
+  <meta name="description" content="Introduction During last days I was playing with amazing AS3 library MadComponents &ndash; lightweight open-source UI framework for Flash. This &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ajukraine.com/blog/2012/09/15/madcomponents-with-robotlegs-flickrgallery">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Bohdan Makohin" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Bohdan Makohin</a></h1>
+  
+    <h2>aka ajukraine</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:ajukraine.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">MadComponents With RobotLegs: FlickrGallery</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-15T21:58:00+03:00" pubdate data-updated="true">Sep 15<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p style="text-align:center;"><img src="/images/madrobot.png" height="252" width="157" alt="MadRobot" /></p>
 
 <h2>Introduction</h2>
 
@@ -46,11 +119,11 @@
 
 <p>First of all let&rsquo;s describe structure of original FlickrGalleyNoMeta to decide what exactly should be reimplemented with MadComponents.</p>
 
-<p style="text-align:center;"><img src="http://ajukraine.com/images/FlickrGallery-package-diagram.png" alt="Package diagrame before" /></p>
+<p style="text-align:center;"><img src="/images/FlickrGallery-package-diagram.png" alt="Package diagrame before" /></p>
 
 <p>In the scheme [1] there are shown package diagram of the app. At the top of root package we have two classes: ImageGalleryContext and RobotLegsFlickrGallery (context view &ndash; in the terms of RobotLegs). With green background I&rsquo;ve marked classes that are Flex-based: context view and UI components. But as we see, &ldquo;mediators&rdquo; depends on Flex components. So first of all, let&rsquo;s create abstrct interfaces which expose contract for interaction with UI: new package &ldquo;api&rdquo; inside &ldquo;components&rdquo;. Then move Flex based components to &ldquo;flex&rdquo; subpackage and create &ldquo;mad&rdquo; package for MadComponents UI. Also I need to have new Mad-based main view and context (which maps mediators to Mad-components).</p>
 
-<p style="text-align:center;"><img src="http://ajukraine.com/images/FlickrGallery-package-diagram-after-refactor.png" alt="Package diagrame after" /></p>
+<p style="text-align:center;"><img src="/images/FlickrGallery-package-diagram-after-refactor.png" alt="Package diagrame after" /></p>
 
 <p>I&rsquo;ve extracted base context class <a href="https://bitbucket.org/ajukraine/madcomponents-robotlegs-flickrgallerynometa/src/tip/src/org/robotlegs/demos/imagegallery/BaseGalleryContext.as">BaseImageGalleryContext</a> and derived two new ones for Flex and Mad. Now our application structure is agnostic to concrete UI library. If we want to compile Flex version just pick <code>MadRobotlegsFlickrGallery</code> as swf main class, or for MadComponents version &ndash; <code>MadRobotlegsFlickrGallery</code>. And this is real power of MVC &ndash; easy replacing of layers implementation: so mediators depends only on UI interfaces.</p>
 
@@ -577,8 +650,138 @@ In order to handle this, you should consider to perform initialization step of v
 
 <p>If you was doubt about using RobotLegs with MadComponents, I&rsquo;d rather you to hurry up and evaluate this post in terms of your requirements. But if you prefer stay away, then you should know that I&rsquo;m going to prepare new article with more in-depth dive into mobile development with MadComponents and RobotLegs.</p>
 
-<p style="text-align:center;"><img src="http://ajukraine.com/images/mad-flickrgallery-screenshot.jpg" alt="Scrrenshot of app" /></p>
-]]></content>
-  </entry>
+<p style="text-align:center;"><img src="/images/mad-flickrgallery-screenshot.jpg" alt="Scrrenshot of app" /></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
   
-</feed>
+
+<span class="byline author vcard">Posted by <span class="fn">Bohdan Makohin</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-15T21:58:00+03:00" pubdate data-updated="true">Sep 15<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/programming/'>programming</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://ajukraine.com/blog/2012/09/15/madcomponents-with-robotlegs-flickrgallery/" data-via="" data-counturl="http://ajukraine.com/blog/2012/09/15/madcomponents-with-robotlegs-flickrgallery/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/09/15/madcomponents-with-robotlegs-flickrgallery/">MadComponents With RobotLegs: FlickrGallery</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/ajukraine">@ajukraine</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'ajukraine',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Bohdan Makohin -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
